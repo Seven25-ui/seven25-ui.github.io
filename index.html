@@ -6,19 +6,6 @@
 
     <title>Se7en • The Ultimate Tech & Lifestyle Curated Hub</title>
     <meta name="description" content="Se7en provides expert, honest reviews on the best productivity tools and lifestyle gear. Hand-picked recommendations from Shopee, Lazada, and Amazon by Gene Guardiana.">
-    <meta name="keywords" content="Best Shopee finds 2026, Lazada deals, Amazon product reviews, Se7en picks, productivity tools Philippines">
-    <link rel="canonical" href="https://seven25-ui.github.io">
-    <meta name="author" content="Gene Guardiana">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "WebSite",
-      "name": "Se7en Brand Hub",
-      "url": "https://seven25-ui.github.io",
-      "author": { "@type": "Person", "name": "Gene Guardiana" }
-    }
-    </script>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -43,7 +30,7 @@
         }
 
         header {
-            padding: 80px 20px;
+            padding: 60px 20px;
             text-align: center;
             background: radial-gradient(circle at top, var(--accent), var(--bg));
         }
@@ -53,84 +40,122 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        .section-label { font-size: 0.8rem; color: var(--primary); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 40px; display: block; }
-
-        .disclosure {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 15px; border-radius: 12px; margin-top: 20px;
-            font-size: 0.7rem; color: var(--text-muted); text-align: center;
+        /* SEARCH & FILTER SECTION */
+        .controls-wrapper {
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
 
-        .random-wrapper {
-            display: flex; overflow-x: auto; gap: 20px; padding: 20px 0;
-            scrollbar-width: none;
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
         }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 25px;
+            padding-left: 50px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--card);
+            color: #fff;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255,154,203,0.2); }
+        .search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--primary); }
+
+        .filter-tabs {
+            display: flex; gap: 10px; overflow-x: auto; width: 100%; justify-content: center; padding-bottom: 5px; scrollbar-width: none;
+        }
+        .filter-tabs::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted);
+            padding: 8px 20px; border-radius: 50px; cursor: pointer; font-weight: 800; font-size: 0.7rem; white-space: nowrap; transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+
+        .section-label { font-size: 0.8rem; color: var(--primary); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 20px; display: block; }
+
+        .random-wrapper { display: flex; overflow-x: auto; gap: 20px; padding: 20px 0; scrollbar-width: none; }
         .random-wrapper::-webkit-scrollbar { display: none; }
+        
         .mini-card {
-            min-width: 260px; background: var(--card); border-radius: 24px;
-            padding: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+            min-width: 260px; background: var(--card); border-radius: 24px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
         }
         .mini-card:hover { border-color: var(--primary); transform: translateY(-5px); }
         .mini-img { width: 100%; height: 150px; object-fit: cover; border-radius: 18px; margin-bottom: 12px; }
 
-        .ad-banner {
-            background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(255, 255, 255, 0.1);
-            padding: 30px; text-align: center; margin: 40px 0; border-radius: 20px;
-            font-size: 0.8rem; color: var(--text-muted);
-        }
-
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         .product-card {
-            background: var(--card); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05);
-            overflow: hidden; display: flex; flex-direction: column; transition: 0.4s;
+            background: var(--card); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05); overflow: hidden; display: flex; flex-direction: column; transition: 0.4s;
         }
         .product-card:hover { border-color: var(--primary); }
-        .image-box { position: relative; width: 100%; height: 260px; }
+        .image-box { position: relative; width: 100%; height: 260px; background: #161b22; }
         .product-img { width: 100%; height: 100%; object-fit: cover; }
-        .badge { position: absolute; top: 20px; left: 20px; background: var(--primary); color: #000; padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.7rem; }
-        .info-box { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; }
-        .info-box h2 { font-size: 1.6rem; margin: 0 0 15px; color: var(--primary); }
-        .info-box p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; flex-grow: 1; }
+        .badge { position: absolute; top: 20px; left: 20px; background: var(--primary); color: #000; padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
+
+        .info-box { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .info-box h2 { font-size: 1.4rem; margin: 0 0 10px; color: var(--primary); }
+        .info-box p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
 
         .store-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .btn {
-            padding: 12px 5px; border-radius: 12px; text-decoration: none; text-align: center;
-            font-weight: 800; font-size: 0.7rem; color: #fff; transition: 0.3s;
-        }
-        .s-btn { background: #ee4d2d; }
-        .l-btn { background: #0f146d; }
-        .a-btn { background: #ff9900; color: #000; }
+        .btn { padding: 12px 5px; border-radius: 12px; text-decoration: none; text-align: center; font-weight: 800; font-size: 0.65rem; color: #fff; transition: 0.3s; }
+        .s-btn { background: #ee4d2d; } .l-btn { background: #0f146d; } .a-btn { background: #ff9900; color: #000; }
         .btn:hover { transform: scale(1.05); filter: brightness(1.2); }
 
         .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
-        .modal-content { background: var(--bg); margin: 5% auto; padding: 40px; border-radius: 30px; max-width: 650px; border: 1px solid var(--primary); position: relative; overflow-y: auto; max-height: 80vh; }
+        .modal-content { background: var(--bg); margin: 5% auto; padding: 40px; border-radius: 30px; max-width: 600px; border: 1px solid var(--primary); position: relative; }
         .close { position: absolute; top: 20px; right: 25px; color: var(--primary); font-size: 30px; cursor: pointer; }
-        .modal-body h2 { color: var(--primary); margin-bottom: 20px; }
-        .modal-body p { margin-bottom: 15px; color: #cbd5e1; }
 
-        footer { text-align: center; padding: 80px 20px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 100px; }
-        .footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 15px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
+        footer { text-align: center; padding: 60px 20px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 80px; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 10px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
         .footer-links a:hover { color: var(--primary); }
 
-        /* FLOATING MESSAGE BUTTON */
         .floating-msg {
-            position: fixed; bottom: 30px; right: 30px;
-            background: var(--primary); color: #000;
-            width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; box-shadow: 0 10px 25px rgba(255, 154, 203, 0.3);
-            cursor: pointer; z-index: 9999; transition: 0.3s; text-decoration: none;
+            position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 9999; transition: 0.3s; text-decoration: none;
         }
-        .floating-msg:hover { transform: scale(1.1) rotate(10deg); background: #fff; }
-        .msg-tooltip {
-            position: absolute; right: 75px; background: #fff; color: #000;
-            padding: 8px 15px; border-radius: 10px; font-size: 0.75rem;
-            font-weight: 800; white-space: nowrap; opacity: 0; transition: 0.3s; pointer-events: none;
-        }
-        .floating-msg:hover .msg-tooltip { opacity: 1; }
 
-        @media (max-width: 600px) { .logo { font-size: 2.8rem; } .product-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) {
+            .logo { font-size: 2.8rem; }
+            .product-grid { grid-template-columns: 1fr; }
+            .filter-tabs { justify-content: flex-start; padding: 0 20px; }
+        }
+
+/* NEWSLETTER & REVIEWS */
+.newsletter-section { padding: 60px 0; }
+.newsletter-card { 
+    background: linear-gradient(135deg, var(--accent), #1a1e2e); 
+    padding: 50px; border-radius: 40px; text-align: center;
+    border: 1px solid rgba(255,154,203,0.2);
+}
+.newsletter-card h3 { font-size: 2rem; margin: 0 0 10px; }
+.newsletter-card p { color: var(--text-muted); margin-bottom: 30px; }
+.newsletter-card form { display: flex; gap: 10px; justify-content: center; max-width: 500px; margin: 0 auto; }
+.newsletter-card input { 
+    flex: 1; padding: 15px 25px; border-radius: 50px; border: none; 
+    background: rgba(255,255,255,0.1); color: #fff; outline: none;
+}
+.newsletter-card button { 
+    background: var(--primary); color: #000; padding: 0 30px; 
+    border-radius: 50px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s;
+}
+.newsletter-card button:hover { transform: scale(1.05); background: #fff; }
+
+.review-box { 
+    margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); 
+    font-size: 0.8rem; font-style: italic; color: var(--text-muted);
+}
+.stars { color: #ffcc00; margin-bottom: 5px; display: block; font-style: normal; }
+
     </style>
 </head>
 <body>
@@ -141,25 +166,44 @@
 </header>
 
 <div class="container">
-    <div class="disclosure">
-        <i class="fa-solid fa-circle-info"></i> <b>Transparency:</b> When you click on links and purchase, we may earn a commission from Amazon, Shopee, or Lazada at no cost to you.
+    <div class="controls-wrapper">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search for gadgets, tools, or style..." onkeyup="handleSearch()">
+        </div>
+
+        <div class="filter-tabs" id="categoryTabs">
+            <button class="filter-btn active" onclick="filterData('ALL')">ALL</button>
+            <button class="filter-btn" onclick="filterData('TECH')">TECH</button>
+            <button class="filter-btn" onclick="filterData('STYLE')">STYLE</button>
+            <button class="filter-btn" onclick="filterData('HOME')">HOME</button>
+        </div>
     </div>
 
     <span class="section-label">Quick Recommendations</span>
     <div class="random-wrapper" id="random-container"></div>
 
-    <div class="ad-banner">
-        <p>Google AdSense Display Area</p>
-    </div>
-
-    <span class="section-label">All Hand-Picked Finds</span>
+    <span class="section-label" id="gridLabel">All Hand-Picked Finds</span>
     <main class="product-grid" id="main-products"></main>
 </div>
 
 <a href="https://m.me/gene.guardiana" target="_blank" class="floating-msg">
-    <span class="msg-tooltip">Chat with Gene</span>
     <i class="fa-brands fa-facebook-messenger"></i>
 </a>
+
+<section class="newsletter-section">
+    <div class="container">
+        <div class="newsletter-card">
+            <h3>Join the Se7en Inner Circle</h3>
+            <p>Get first dibs on the rarest tech finds and lifestyle gear. No spam, just curated excellence.</p>
+            <form id="newsletterForm" onsubmit="handleSignup(event)">
+                <input type="email" id="subscriberEmail" placeholder="Enter your email address" required>
+                <button type="submit">SUBSCRIBE</button>
+            </form>
+            <p id="signupMsg" style="margin-top:15px; font-size:0.7rem; color:var(--primary); display:none;">Awesome! Check your inbox soon, Aloy style.</p>
+        </div>
+    </div>
+</section>
 
 <footer>
     <div class="footer-links">
@@ -168,118 +212,141 @@
         <a onclick="openModal('terms')">Terms of Service</a>
         <a onclick="openModal('contact')">Contact</a>
     </div>
-    <p style="color: var(--text-muted); font-size: 0.75rem;">&copy; 2026 Se7en Brand Hub. Created by Gene Guardiana.</p>
+    <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 20px;">&copy; 2026 Se7en Brand Hub. Created by Gene Guardiana.</p>
 </footer>
 
 <div id="seoModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <div id="modal-body" class="modal-body"></div>
+        <div id="modal-body" style="color: #fff;"></div>
     </div>
 </div>
 
 <script>
-    // SAKTO NGA SETTINGS PARA SA IMONG SHEET
-    const SHEET_ID = '1QPfErsbWt-5L6seIvNJ2FOWr9CqnLUXzkV1zDlSCU2Y'; 
+    const SHEET_ID = '1QPfErsbWt-5L6seIvNJ2FOWr9CqnLUXzkV1zDlSCU2Y';
     const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+    let allItems = [];
+    let currentFilter = 'ALL';
+
+    const modalData = {
+        about: `<h2>About Se7en</h2><p>Se7en is a curated digital hub dedicated to finding the perfect balance between aesthetics and function. Founded by <b>Gene Guardiana</b>, we filter through thousands of products to bring you only the best in tech, home, and lifestyle essentials.</p><p>Our mission is to help you build a setup that inspires productivity and style.</p>`,
+        privacy: `<h2>Privacy Policy</h2><p>Your privacy matters at Se7en. We do not collect personal data from our visitors. Please note that we use affiliate links from Shopee, Lazada, and Amazon.</p><p>These platforms may use cookies to track your purchases so we can earn a small commission at no extra cost to you.</p>`,
+        terms: `<h2>Terms of Service</h2><p>By using Se7en, you agree that we are a recommendation platform and not the direct seller of the items listed.</p><p>We are not responsible for product shipping, quality, or refunds—these are handled by the respective stores.</p>`,
+        contact: `<h2>Contact Us</h2><p>Have a question or a product suggestion?</p><p><b>Email:</b> guardianagene6@gmail.com</p><p><b>Messenger:</b> <a href="https://m.me/gene.guardiana" target="_blank" style="color:var(--primary); text-decoration:none;">Chat with Gene Guardiana</a></p>`
+    };
 
     async function loadData() {
         const productGrid = document.getElementById('main-products');
-        const randomContainer = document.getElementById('random-container');
-        
-        // Loading State
-        productGrid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Nag-load pa sa mga finds, Aloy... Kadiyot lang.</p>";
+        productGrid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Fetching curated picks...</p>";
 
         try {
             const res = await fetch(SHEET_URL);
-            if (!res.ok) throw new Error('Network response was not ok');
-            
             const text = await res.text();
-            // Limpyo nga pag-extract sa JSON
             const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
-            
-            if (!jsonStr) throw new Error('Invalid JSON format');
-            
             const rawData = JSON.parse(jsonStr[1]);
             const rows = rawData.table.rows;
 
-            const products = rows.map(r => {
-                const getVal = (idx) => (r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
-                return {
-                    name: getVal(0),    // Column A
-                    cat: getVal(1) || 'STYLE', // Column B
-                    desc: getVal(2),    // Column C
-                    img: getVal(3) || 'https://via.placeholder.com/400', // Column D
-                    shopee: getVal(4) || '#', // Column E
-                    lazada: getVal(5) || '#', // Column F
-                    amazon: getVal(6) || '#'  // Column G
-                };
-            }).filter(p => p.name && p.name !== ""); // Tangtangon ang empty rows
+            allItems = rows.map(r => {
+    const getVal = (idx) => (r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
+    return {
+        name: getVal(0),
+        cat: getVal(1) ? getVal(1).toUpperCase() : 'TECH',
+        desc: getVal(2),
+        img: getVal(3) || 'https://via.placeholder.com/400',
+        shopee: getVal(4) || '#',
+        lazada: getVal(5) || '#',
+        amazon: getVal(6) || '#',
+        // KINI ANG BAG-O:
+        stars: getVal(7) || '★★★★★',      // Column H (Stars)
+        review: getVal(8) || 'Must-have!'  // Column I (Review Text)
+    };
+}).filter(p => p.name);
 
-            if (products.length === 0) {
-                productGrid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Walay sulod imong Google Sheet, Aloy.</p>";
-                return;
-            }
-
-            render(products);
+            render(allItems);
+            renderRandoms(allItems);
         } catch (e) {
-            console.error("Sheet loading failed:", e);
-            productGrid.innerHTML = `
-                <div style="text-align:center; padding: 50px; color: #ff9acb; grid-column: 1 / -1;">
-                    <i class="fa-solid fa-circle-exclamation" style="font-size: 2rem;"></i>
-                    <p>Dili mabasa ang Sheet. <br> <b>Siguraduha nga naka-PUBLIC (Anyone with the link can view) ang imong Google Sheet.</b></p>
-                </div>`;
+            productGrid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Error loading data. Check Sheet sharing settings.</p>";
         }
     }
 
-    function render(data) {
-        // 1. Random Recommendations (Horizontal Scroll)
+    function renderRandoms(data) {
         const randoms = [...data].sort(() => 0.5 - Math.random()).slice(0, 5);
         document.getElementById('random-container').innerHTML = randoms.map(p => `
             <div class="mini-card">
                 <img src="${p.img}" class="mini-img" onerror="this.src='https://via.placeholder.com/400'">
-                <h3 style="font-size:0.8rem; margin:10px 0; height:32px; overflow:hidden;">${p.name}</h3>
-                <a href="${p.shopee}" target="_blank" class="btn s-btn" style="font-size:0.6rem; display:block; padding:8px;">CHECK DEAL</a>
+                <h3 style="font-size:0.8rem; margin:10px 0; height:40px; overflow:hidden;">${p.name}</h3>
+                <a href="${p.shopee}" target="_blank" class="btn s-btn" style="display:block;">VIEW DEAL</a>
             </div>
         `).join('');
-
-        // 2. Main Grid (All Products)
-        document.getElementById('main-products').innerHTML = data.map(p => `
-            <article class="product-card">
-                <div class="image-box">
-                    <span class="badge">${p.cat}</span>
-                    <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/400'">
-                </div>
-                <div class="info-box">
-                    <h2>${p.name}</h2>
-                    <p>${p.desc}</p>
-                    <div class="store-btns">
-                        ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
-                        ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
-                        ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn">AMAZON</a>` : ''}
-                    </div>
-                </div>
-            </article>
-        `).join('');
     }
 
-    // Modal functionality
-    const modalData = {
-        about: `<h2>About Se7en</h2><p>Curated tech and lifestyle essentials by Gene Guardiana.</p>`,
-        privacy: `<h2>Privacy Policy</h2><p>Affiliate links are used to support the hub at no extra cost to you.</p>`,
-        terms: `<h2>Terms of Service</h2><p>Product availability is subject to store stock.</p>`,
-        contact: `<h2>Contact Us</h2><p>Email: guardianagene6@gmail.com</p>`
-    };
+    function render(data) {
+    document.getElementById('main-products').innerHTML = data.map(p => `
+        <article class="product-card">
+            <div class="image-box">
+                <span class="badge">${p.cat}</span>
+                <img src="${p.img}" class="product-img">
+            </div>
+            <div class="info-box">
+                <h2>${p.name}</h2>
+                <p>${p.desc}</p>
+                
+                <div class="review-box" style="margin-top:auto; padding:15px 0; border-top:1px dashed rgba(255,255,255,0.1); font-size:0.8rem; font-style:italic; color:var(--text-muted);">
+                    <span style="color:#ffcc00; display:block; font-style:normal;">${p.stars}</span>
+                    "${p.review}"
+                </div>
 
-    function openModal(p) { 
-        document.getElementById('modal-body').innerHTML = modalData[p]; 
-        document.getElementById('seoModal').style.display="block"; 
+                <div class="store-btns" style="margin-top:15px;">
+                    ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
+                    ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
+                    ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn">AMAZON</a>` : ''}
+                </div>
+            </div>
+        </article>`).join('');
+}
+
+    function handleSignup(e) {
+        e.preventDefault();
+        const email = document.getElementById('subscriberEmail').value;
+        console.log("New Subscriber:", email);
+        document.getElementById('newsletterForm').style.display = 'none';
+        document.getElementById('signupMsg').style.display = 'block';
+        // Tip: Pwede ni nimo i-link sa Mailchimp o Google Sheets sa sunod.
     }
-    function closeModal() { document.getElementById('seoModal').style.display="none"; }
-    window.onclick = (e) => { if (e.target == document.getElementById('seoModal')) closeModal(); }
+
+    function handleSearch() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = allItems.filter(p => 
+            (p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query)) &&
+            (currentFilter === 'ALL' || p.cat === currentFilter)
+        );
+        render(filtered);
+    }
+
+    function filterData(cat) {
+        currentFilter = cat;
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.innerText === cat);
+        });
+        handleSearch();
+    }
+
+    function openModal(p) {
+        document.getElementById('modal-body').innerHTML = modalData[p];
+        document.getElementById('seoModal').style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById('seoModal').style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('seoModal')) closeModal();
+    }
 
     window.onload = loadData;
-</script>   
+</script>
 
 </body>
 </html>
