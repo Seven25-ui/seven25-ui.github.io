@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Se7en • The Ultimate Tech & Lifestyle Curated Hub</title>
+    <meta name="description" content="Se7en provides expert, honest reviews on the best productivity tools and lifestyle gear. Hand-picked recommendations from Shopee, Lazada, and Amazon by Gene Guardiana.">
+    <meta name="keywords" content="Best Shopee finds 2026, Lazada deals, Amazon product reviews, Se7en picks, productivity tools Philippines">
+    <link rel="canonical" href="https://seven25-ui.github.io">
+    <meta name="author" content="Gene Guardiana">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "WebSite",
+      "name": "Se7en Brand Hub",
+      "url": "https://seven25-ui.github.io",
+      "author": { "@type": "Person", "name": "Gene Guardiana" }
+    }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #ff9acb;
+            --accent: #77216F;
+            --bg: #0b0f19;
+            --card: rgba(255, 255, 255, 0.03);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            padding: 80px 20px;
+            text-align: center;
+            background: radial-gradient(circle at top, var(--accent), var(--bg));
+        }
+        .logo { font-size: 4rem; font-weight: 800; margin: 0; letter-spacing: -4px; cursor: pointer; }
+        .logo span { color: var(--primary); }
+        .tagline { text-transform: uppercase; letter-spacing: 6px; font-size: 0.75rem; color: var(--primary); font-weight: bold; margin-top: 10px; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .section-label { font-size: 0.8rem; color: var(--primary); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 40px; display: block; }
+
+        .disclosure {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 15px; border-radius: 12px; margin-top: 20px;
+            font-size: 0.7rem; color: var(--text-muted); text-align: center;
+        }
+
+        .random-wrapper {
+            display: flex; overflow-x: auto; gap: 20px; padding: 20px 0;
+            scrollbar-width: none;
+        }
+        .random-wrapper::-webkit-scrollbar { display: none; }
+        .mini-card {
+            min-width: 260px; background: var(--card); border-radius: 24px;
+            padding: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+        }
+        .mini-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .mini-img { width: 100%; height: 150px; object-fit: cover; border-radius: 18px; margin-bottom: 12px; }
+
+        .ad-banner {
+            background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(255, 255, 255, 0.1);
+            padding: 30px; text-align: center; margin: 40px 0; border-radius: 20px;
+            font-size: 0.8rem; color: var(--text-muted);
+        }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .product-card {
+            background: var(--card); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden; display: flex; flex-direction: column; transition: 0.4s;
+        }
+        .product-card:hover { border-color: var(--primary); }
+        .image-box { position: relative; width: 100%; height: 260px; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
+        .badge { position: absolute; top: 20px; left: 20px; background: var(--primary); color: #000; padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.7rem; }
+        .info-box { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; }
+        .info-box h2 { font-size: 1.6rem; margin: 0 0 15px; color: var(--primary); }
+        .info-box p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; flex-grow: 1; }
+
+        .store-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .btn {
+            padding: 12px 5px; border-radius: 12px; text-decoration: none; text-align: center;
+            font-weight: 800; font-size: 0.7rem; color: #fff; transition: 0.3s;
+        }
+        .s-btn { background: #ee4d2d; }
+        .l-btn { background: #0f146d; }
+        .a-btn { background: #ff9900; color: #000; }
+        .btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
+        .modal-content { background: var(--bg); margin: 5% auto; padding: 40px; border-radius: 30px; max-width: 650px; border: 1px solid var(--primary); position: relative; overflow-y: auto; max-height: 80vh; }
+        .close { position: absolute; top: 20px; right: 25px; color: var(--primary); font-size: 30px; cursor: pointer; }
+        .modal-body h2 { color: var(--primary); margin-bottom: 20px; }
+        .modal-body p { margin-bottom: 15px; color: #cbd5e1; }
+
+        footer { text-align: center; padding: 80px 20px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 100px; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 15px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
+        .footer-links a:hover { color: var(--primary); }
+
+        /* FLOATING MESSAGE BUTTON */
+        .floating-msg {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--primary); color: #000;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 10px 25px rgba(255, 154, 203, 0.3);
+            cursor: pointer; z-index: 9999; transition: 0.3s; text-decoration: none;
+        }
+        .floating-msg:hover { transform: scale(1.1) rotate(10deg); background: #fff; }
+        .msg-tooltip {
+            position: absolute; right: 75px; background: #fff; color: #000;
+            padding: 8px 15px; border-radius: 10px; font-size: 0.75rem;
+            font-weight: 800; white-space: nowrap; opacity: 0; transition: 0.3s; pointer-events: none;
+        }
+        .floating-msg:hover .msg-tooltip { opacity: 1; }
+
+        @media (max-width: 600px) { .logo { font-size: 2.8rem; } .product-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="logo" onclick="location.reload()">Se<span>7</span>en</h1>
+    <p class="tagline">The Curated Lifestyle Standard</p>
+</header>
+
+<div class="container">
+    <div class="disclosure">
+        <i class="fa-solid fa-circle-info"></i> <b>Transparency:</b> When you click on links and purchase, we may earn a commission from Amazon, Shopee, or Lazada at no cost to you.
+    </div>
+
+    <span class="section-label">Quick Recommendations</span>
+    <div class="random-wrapper" id="random-container"></div>
+
+    <div class="ad-banner">
+        <p>Google AdSense Display Area</p>
+    </div>
+
+    <span class="section-label">All Hand-Picked Finds</span>
+    <main class="product-grid" id="main-products"></main>
+</div>
+
+<a href="https://m.me/gene.guardiana" target="_blank" class="floating-msg">
+    <span class="msg-tooltip">Chat with Gene</span>
+    <i class="fa-brands fa-facebook-messenger"></i>
+</a>
+
+<footer>
+    <div class="footer-links">
+        <a onclick="openModal('about')">About Us</a>
+        <a onclick="openModal('privacy')">Privacy Policy</a>
+        <a onclick="openModal('terms')">Terms of Service</a>
+        <a onclick="openModal('contact')">Contact</a>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.75rem;">&copy; 2026 Se7en Brand Hub. Created by Gene Guardiana.</p>
+</footer>
+
+<div id="seoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modal-body" class="modal-body"></div>
+    </div>
+</div>
+
+<script>
+    // GOOGLE SHEETS SETTINGS
+    const SHEET_ID = 'https://docs.google.com/spreadsheets/d/1QPfErsbWt-5L6seIvNJ2FOWr9CqnLUXzkV1zDlSCU2Y/edit?usp=drivesdk'; // <--- SIGURADUHA NGA SAKTO NI ALOY!
+    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+    async function loadData() {
+        try {
+            const res = await fetch(SHEET_URL);
+            const text = await res.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            const rows = json.table.rows;
+
+            const products = rows.map(r => ({
+                name: r.c[0] ? r.c[0].v : '',
+                cat: r.c[1] ? r.c[1].v : 'TECH',
+                desc: r.c[2] ? r.c[2].v : '',
+                img: r.c[3] ? r.c[3].v : 'https://via.placeholder.com/400',
+                shopee: r.c[4] ? r.c[4].v : '#',
+                lazada: r.c[5] ? r.c[5].v : '#',
+                amazon: r.c[6] ? r.c[6].v : '#'
+            }));
+
+            render(products);
+        } catch (e) {
+            console.error("Sheet loading failed.");
+            document.getElementById('main-products').innerHTML = "<p>Please check your Sheet ID and Publication settings.</p>";
+        }
+    }
+
+    function render(data) {
+        const randoms = [...data].sort(() => 0.5 - Math.random()).slice(0, 4);
+        document.getElementById('random-container').innerHTML = randoms.map(p => `
+            <div class="mini-card">
+                <img src="${p.img}" class="mini-img">
+                <h3>${p.name}</h3>
+                <a href="${p.shopee}" target="_blank" class="btn s-btn" style="font-size:0.6rem">VIEW DEAL</a>
+            </div>
+        `).join('');
+
+        document.getElementById('main-products').innerHTML = data.map(p => `
+            <article class="product-card">
+                <div class="image-box">
+                    <span class="badge">${p.cat}</span>
+                    <img src="${p.img}" alt="${p.name}" class="product-img">
+                </div>
+                <div class="info-box">
+                    <h2>${p.name}</h2>
+                    <p>${p.desc}</p>
+                    <div class="store-btns">
+                        <a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>
+                        <a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>
+                        <a href="${p.amazon}" target="_blank" class="btn a-btn">AMAZON</a>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+    }
+
+    // MODAL SYSTEM
+    const modalData = {
+        about: `<h2>About Se7en</h2><p>Welcome to <b>Se7en</b>, your premier digital destination for curated tech and lifestyle essentials. Founded by <b>Gene Guardiana</b>, we filter the noise to bring you high-quality, aesthetic, and functional products.</p><p>We focus on intentional living, helping you build a workspace and lifestyle that inspires productivity.</p>`,
+        privacy: `<h2>Privacy Policy</h2><p>At Se7en, accessible via seven25-ui.github.io, your privacy is our priority. We use cookies to optimize user experience and Google DART cookies for relevant ad serving.</p><p>We do not store your personal data; we only provide affiliate links to trusted platforms.</p>`,
+        terms: `<h2>Terms of Service</h2><p>By using Se7en, you accept our terms. We are a participant in affiliate programs (Shopee, Lazada, Amazon) and earn commissions at no extra cost to you.</p><p>Product prices and availability are managed by third-party stores and may change without notice.</p>`,
+        contact: `<h2>Contact Us</h2><p>For inquiries, reviews, or partnerships:</p><p><b>Email:</b> guardianagene6@gmail.com</p><p><b>Messenger:</b> <a href="https://m.me/gene.guardiana" target="_blank" style="color:var(--primary)">Chat with Gene</a></p>`
+    };
+
+    function openModal(p) { 
+        document.getElementById('modal-body').innerHTML = modalData[p]; 
+        document.getElementById('seoModal').style.display="block"; 
+    }
+    function closeModal() { document.getElementById('seoModal').style.display="none"; }
+    
+    window.onclick = function(e) { if (e.target == document.getElementById('seoModal')) closeModal(); }
+    window.onload = loadData;
+</script>
+
+</body>
+</html>
