@@ -84,12 +84,28 @@
 
         .section-label { font-size: 0.8rem; color: var(--primary); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 20px; display: block; }
 
-        .random-wrapper { display: flex; overflow-x: auto; gap: 20px; padding: 20px 0; scrollbar-width: none; }
-        .random-wrapper::-webkit-scrollbar { display: none; }
-        
-        .mini-card {
-            min-width: 260px; background: var(--card); border-radius: 24px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
-        }
+        .random-wrapper {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px 5px;
+    scrollbar-width: none; /* Tago-on ang scrollbar sa Firefox */
+    -webkit-overflow-scrolling: touch; /* Para smooth ang scroll sa iPhone */
+}
+
+.random-wrapper::-webkit-scrollbar {
+    display: none; /* Tago-on ang scrollbar sa Chrome/Brave */
+}
+
+.mini-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.4s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
         .mini-card:hover { border-color: var(--primary); transform: translateY(-5px); }
         .mini-img { width: 100%; height: 150px; object-fit: cover; border-radius: 18px; margin-bottom: 12px; }
 
@@ -215,19 +231,18 @@
 }
 
 .review-box {
-    margin-top: 20px; 
-    padding-top: 15px; 
+    margin-top: auto;
+    padding: 15px 0;
     border-top: 1px dashed rgba(255,255,255,0.1);
-    font-size: 0.8rem; 
-    font-style: italic; 
+    font-size: 0.8rem;
+    font-style: italic;
     color: var(--text-muted);
 }
-
-.stars { 
-    color: #ffcc00; 
-    margin-bottom: 5px; 
-    display: block; 
-    font-style: normal; 
+.stars {
+    color: #ffcc00;
+    display: block;
+    font-style: normal;
+    margin-bottom: 5px;
 }
 
 .a-btn {
@@ -279,6 +294,9 @@
 
     <span class="section-label">Quick Recommendations</span>
     <div class="random-wrapper" id="random-container"></div>
+
+    <span class="section-label">Curated Collection</span>
+    <div id="main-products" class="product-grid"></div>
 </div>
 
 <a href="https://m.me/gene.guardiana" target="_blank" class="floating-msg">
@@ -331,74 +349,89 @@
     };
 
     async function loadData() {
-        const productGrid = document.getElementById('main-products');
-        productGrid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Fetching curated picks...</p>";
+    const randomContainer = document.getElementById('random-container');
+    const productGrid = document.getElementById('main-products');
 
-        try {
-            const res = await fetch(SHEET_URL);
-            const text = await res.text();
-            const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
-            const rawData = JSON.parse(jsonStr[1]);
-            const rows = rawData.table.rows;
+    try {
+        const res = await fetch(SHEET_URL);
+        const text = await res.text();
+        const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
+        const rawData = JSON.parse(jsonStr[1]);
+        
+        // .slice(1) para sugod sa Row 2 ang basahon, dili i-apil ang Header
+        const rows = rawData.table.rows.slice(1); 
 
-            allItems = rows.map(r => {
-    const getVal = (idx) => (r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
-    return {
-        name: getVal(0),
-        cat: getVal(1) ? getVal(1).toUpperCase() : 'TECH',
-        desc: getVal(2),
-        img: getVal(3) || 'https://via.placeholder.com/400',
-        shopee: getVal(4) || '#',
-        lazada: getVal(5) || '#',
-        amazon: getVal(6) || '#',
-        // KINI ANG BAG-O:
-        stars: getVal(7) || '★★★★★',      // Column H (Stars)
-        review: getVal(8) || 'Must-have!'  // Column I (Review Text)
-    };
-}).filter(p => p.name);
+        allItems = rows.map(r => {
+            const getVal = (idx) => (r.c && r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
+            return {
+                name: String(getVal(0)),
+                cat: String(getVal(1)).toUpperCase(),
+                desc: String(getVal(2)),
+                img: String(getVal(3)),
+                stars: getVal(7) || '★★★★★',
+                review: getVal(8) || 'Must-have!'
+            };
+        }).filter(p => p.name && p.img && p.img.startsWith('http')); // Siguradohon nga naay image link gyud
 
+        renderRandoms(allItems);
+        
+        // I-render lang ang Curated Collection kung naa pa ang div sa HTML
+        if (productGrid) {
             render(allItems);
-            renderRandoms(allItems);
-        } catch (e) {
-            productGrid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Error loading data. Check Sheet sharing settings.</p>";
         }
+    } catch (e) {
+        console.error("Error loading data:", e);
     }
-
-    function renderRandoms(data) {
-        const randoms = [...data].sort(() => 0.5 - Math.random()).slice(0, 5);
-        document.getElementById('random-container').innerHTML = randoms.map(p => `
-            <div class="mini-card">
-                <img src="${p.img}" class="mini-img" onerror="this.src='https://via.placeholder.com/400'">
-                <h3 style="font-size:0.8rem; margin:10px 0; height:40px; overflow:hidden;">${p.name}</h3>
-                <a href="${p.shopee}" target="_blank" class="btn s-btn" style="display:block;">VIEW DEAL</a>
-            </div>
-        `).join('');
-    }
+}
 
     function render(data) {
-    document.getElementById('main-products').innerHTML = data.map(p => `
+    const grid = document.getElementById('main-products');
+    if (!grid) return; // Proteksyon kung gi-delete na nimo ang div sa HTML
+
+    grid.innerHTML = data.map(p => `
         <article class="product-card">
             <div class="image-box">
                 <span class="badge">${p.cat}</span>
-                <img src="${p.img}" class="product-img">
+                <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400?text=Image+Loading...'">
             </div>
             <div class="info-box">
                 <h2>${p.name}</h2>
                 <p>${p.desc}</p>
-                
-                <div class="review-box" style="margin-top:auto; padding:15px 0; border-top:1px dashed rgba(255,255,255,0.1); font-size:0.8rem; font-style:italic; color:var(--text-muted);">
-                    <span style="color:#ffcc00; display:block; font-style:normal;">${p.stars}</span>
-                    "${p.review}"
-                </div>
 
-                <div class="store-btns" style="margin-top:15px;">
-                    ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
-                    ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
-                    ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn"><i class="fa-brands fa-amazon"></i> CHECK PRICE</a>` : ''}
+                <div class="review-box" style="margin-top:auto;">
+                    <span class="stars">${p.stars}</span>
+                    "${p.review}"
                 </div>
             </div>
         </article>`).join('');
 }
+
+    function renderRandoms(data) {
+    const container = document.getElementById('random-container');
+    if (!container) return;
+
+    // Kuhaon ang 10 ka random picks
+    const randoms = [...data].sort(() => 0.5 - Math.random()).slice(0, 10);
+    
+    container.innerHTML = randoms.map(p => `
+        <div class="mini-card" style="display: flex; flex-direction: column; min-width: 280px; background: var(--card); border-radius: 24px; padding: 15px; border: 1px solid rgba(255,255,255,0.05);">
+            <div class="image-box" style="height: 200px; position: relative; overflow: hidden; border-radius: 18px;">
+                <span class="badge" style="position: absolute; top: 10px; left: 10px; background: var(--primary); color: #000; padding: 5px 10px; border-radius: 8px; font-weight: 800; font-size: 0.6rem;">${p.cat}</span>
+                <img src="${p.img}" style="height: 100%; width: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400?text=Check+Image+Link'">
+            </div>
+            
+            <div class="info-box" style="padding: 15px 5px; flex-grow: 1;">
+                <h3 style="font-size: 1.1rem; color: var(--primary); margin: 0 0 8px;">${p.name}</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;">${p.desc}</p>
+                
+                <div class="review-box" style="border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px; margin-top: auto;">
+                    <span style="color: #ffcc00; font-size: 0.8rem; display: block; margin-bottom: 4px;">${p.stars}</span>
+                    <span style="font-size: 0.75rem; color: rgba(255,255,255,0.6); font-style: italic;">"${p.review}"</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}        
 
     function handleSignup(e) {
         e.preventDefault();
