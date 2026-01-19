@@ -179,68 +179,96 @@
 </div>
 
 <script>
-    // GOOGLE SHEETS SETTINGS
-    const SHEET_ID = 'https://docs.google.com/spreadsheets/d/1QPfErsbWt-5L6seIvNJ2FOWr9CqnLUXzkV1zDlSCU2Y/edit?usp=drivesdk'; // <--- SIGURADUHA NGA SAKTO NI ALOY!
+    // SAKTO NGA SETTINGS PARA SA IMONG SHEET
+    const SHEET_ID = '1QPfErsbWt-5L6seIvNJ2FOWr9CqnLUXzkV1zDlSCU2Y'; 
+    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
     async function loadData() {
+        const productGrid = document.getElementById('main-products');
+        const randomContainer = document.getElementById('random-container');
+        
+        // Loading State
+        productGrid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Nag-load pa sa mga finds, Aloy... Kadiyot lang.</p>";
+
         try {
             const res = await fetch(SHEET_URL);
+            if (!res.ok) throw new Error('Network response was not ok');
+            
             const text = await res.text();
-            const json = JSON.parse(text.substr(47).slice(0, -2));
-            const rows = json.table.rows;
+            // Limpyo nga pag-extract sa JSON
+            const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
+            
+            if (!jsonStr) throw new Error('Invalid JSON format');
+            
+            const rawData = JSON.parse(jsonStr[1]);
+            const rows = rawData.table.rows;
 
-            const products = rows.map(r => ({
-                name: r.c[0] ? r.c[0].v : '',
-                cat: r.c[1] ? r.c[1].v : 'TECH',
-                desc: r.c[2] ? r.c[2].v : '',
-                img: r.c[3] ? r.c[3].v : 'https://via.placeholder.com/400',
-                shopee: r.c[4] ? r.c[4].v : '#',
-                lazada: r.c[5] ? r.c[5].v : '#',
-                amazon: r.c[6] ? r.c[6].v : '#'
-            }));
+            const products = rows.map(r => {
+                const getVal = (idx) => (r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
+                return {
+                    name: getVal(0),    // Column A
+                    cat: getVal(1) || 'STYLE', // Column B
+                    desc: getVal(2),    // Column C
+                    img: getVal(3) || 'https://via.placeholder.com/400', // Column D
+                    shopee: getVal(4) || '#', // Column E
+                    lazada: getVal(5) || '#', // Column F
+                    amazon: getVal(6) || '#'  // Column G
+                };
+            }).filter(p => p.name && p.name !== ""); // Tangtangon ang empty rows
+
+            if (products.length === 0) {
+                productGrid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Walay sulod imong Google Sheet, Aloy.</p>";
+                return;
+            }
 
             render(products);
         } catch (e) {
-            console.error("Sheet loading failed.");
-            document.getElementById('main-products').innerHTML = "<p>Please check your Sheet ID and Publication settings.</p>";
+            console.error("Sheet loading failed:", e);
+            productGrid.innerHTML = `
+                <div style="text-align:center; padding: 50px; color: #ff9acb; grid-column: 1 / -1;">
+                    <i class="fa-solid fa-circle-exclamation" style="font-size: 2rem;"></i>
+                    <p>Dili mabasa ang Sheet. <br> <b>Siguraduha nga naka-PUBLIC (Anyone with the link can view) ang imong Google Sheet.</b></p>
+                </div>`;
         }
     }
 
     function render(data) {
-        const randoms = [...data].sort(() => 0.5 - Math.random()).slice(0, 4);
+        // 1. Random Recommendations (Horizontal Scroll)
+        const randoms = [...data].sort(() => 0.5 - Math.random()).slice(0, 5);
         document.getElementById('random-container').innerHTML = randoms.map(p => `
             <div class="mini-card">
-                <img src="${p.img}" class="mini-img">
-                <h3>${p.name}</h3>
-                <a href="${p.shopee}" target="_blank" class="btn s-btn" style="font-size:0.6rem">VIEW DEAL</a>
+                <img src="${p.img}" class="mini-img" onerror="this.src='https://via.placeholder.com/400'">
+                <h3 style="font-size:0.8rem; margin:10px 0; height:32px; overflow:hidden;">${p.name}</h3>
+                <a href="${p.shopee}" target="_blank" class="btn s-btn" style="font-size:0.6rem; display:block; padding:8px;">CHECK DEAL</a>
             </div>
         `).join('');
 
+        // 2. Main Grid (All Products)
         document.getElementById('main-products').innerHTML = data.map(p => `
             <article class="product-card">
                 <div class="image-box">
                     <span class="badge">${p.cat}</span>
-                    <img src="${p.img}" alt="${p.name}" class="product-img">
+                    <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/400'">
                 </div>
                 <div class="info-box">
                     <h2>${p.name}</h2>
                     <p>${p.desc}</p>
                     <div class="store-btns">
-                        <a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>
-                        <a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>
-                        <a href="${p.amazon}" target="_blank" class="btn a-btn">AMAZON</a>
+                        ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
+                        ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
+                        ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn">AMAZON</a>` : ''}
                     </div>
                 </div>
             </article>
         `).join('');
     }
 
-    // MODAL SYSTEM
+    // Modal functionality
     const modalData = {
-        about: `<h2>About Se7en</h2><p>Welcome to <b>Se7en</b>, your premier digital destination for curated tech and lifestyle essentials. Founded by <b>Gene Guardiana</b>, we filter the noise to bring you high-quality, aesthetic, and functional products.</p><p>We focus on intentional living, helping you build a workspace and lifestyle that inspires productivity.</p>`,
-        privacy: `<h2>Privacy Policy</h2><p>At Se7en, accessible via seven25-ui.github.io, your privacy is our priority. We use cookies to optimize user experience and Google DART cookies for relevant ad serving.</p><p>We do not store your personal data; we only provide affiliate links to trusted platforms.</p>`,
-        terms: `<h2>Terms of Service</h2><p>By using Se7en, you accept our terms. We are a participant in affiliate programs (Shopee, Lazada, Amazon) and earn commissions at no extra cost to you.</p><p>Product prices and availability are managed by third-party stores and may change without notice.</p>`,
-        contact: `<h2>Contact Us</h2><p>For inquiries, reviews, or partnerships:</p><p><b>Email:</b> guardianagene6@gmail.com</p><p><b>Messenger:</b> <a href="https://m.me/gene.guardiana" target="_blank" style="color:var(--primary)">Chat with Gene</a></p>`
+        about: `<h2>About Se7en</h2><p>Curated tech and lifestyle essentials by Gene Guardiana.</p>`,
+        privacy: `<h2>Privacy Policy</h2><p>Affiliate links are used to support the hub at no extra cost to you.</p>`,
+        terms: `<h2>Terms of Service</h2><p>Product availability is subject to store stock.</p>`,
+        contact: `<h2>Contact Us</h2><p>Email: guardianagene6@gmail.com</p>`
     };
 
     function openModal(p) { 
@@ -248,10 +276,10 @@
         document.getElementById('seoModal').style.display="block"; 
     }
     function closeModal() { document.getElementById('seoModal').style.display="none"; }
-    
-    window.onclick = function(e) { if (e.target == document.getElementById('seoModal')) closeModal(); }
+    window.onclick = (e) => { if (e.target == document.getElementById('seoModal')) closeModal(); }
+
     window.onload = loadData;
-</script>
+</script>   
 
 </body>
 </html>
