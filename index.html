@@ -503,14 +503,23 @@
     const grid = document.getElementById('main-products');
     if (!grid) return;
 
-    grid.innerHTML = data.map(p => `
+    grid.innerHTML = data.map(p => {
+        // Priority Link: Amazon -> Shopee -> Lazada
+        const targetLink = p.amazon !== '#' ? p.amazon : (p.shopee !== '#' ? p.shopee : p.lazada);
+
+        return `
         <article class="product-card">
-            <div class="image-box">
-                <span class="badge">${p.cat}</span>
-                <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400?text=Image+Loading...'">
-            </div>
+            <a href="${targetLink}" target="_blank" style="text-decoration: none; display: block; overflow: hidden;">
+                <div class="image-box">
+                    <span class="badge">${p.cat}</span>
+                    <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400?text=Image+Loading...'">
+                </div>
+            </a>
+            
             <div class="info-box">
-                <h2>${p.name}</h2>
+                <a href="${targetLink}" target="_blank" style="text-decoration: none;">
+                    <h2 style="cursor: pointer;">${p.name}</h2>
+                </a>
                 <p>${p.desc}</p>
 
                 <div class="review-box">
@@ -524,7 +533,8 @@
                     ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn"><i class="fa-brands fa-amazon"></i> AMAZON</a>` : ''}
                 </div>
             </div>
-        </article>`).join('');
+        </article>`;
+    }).join('');
 }
 
    function renderRandoms(data) {
