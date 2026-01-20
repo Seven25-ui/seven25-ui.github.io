@@ -362,17 +362,19 @@
         const rows = rawData.table.rows.slice(1); 
 
         allItems = rows.map(r => {
-            const getVal = (idx) => (r.c && r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
-            return {
-                name: String(getVal(0)),
-                cat: String(getVal(1)).toUpperCase(),
-                desc: String(getVal(2)),
-                img: String(getVal(3)),
-                stars: getVal(7) || '★★★★★',
-                review: getVal(8) || 'Must-have!'
-            };
-        }).filter(p => p.name && p.img && p.img.startsWith('http')); // Siguradohon nga naay image link gyud
-
+    const getVal = (idx) => (r.c && r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
+    return {
+        name: String(getVal(0)),
+        cat: String(getVal(1)).toUpperCase(),
+        desc: String(getVal(2)),
+        img: String(getVal(3)),
+        shopee: getVal(4) || '#', // Column E
+        lazada: getVal(5) || '#',  // Column F
+        amazon: getVal(6) || '#',  // Column G
+        stars: getVal(7) || '★★★★★',
+        review: getVal(8) || 'Must-have!'
+    };
+}).filter(p => p.name && p.img && p.img.startsWith('http'));
         renderRandoms(allItems);
         
         // I-render lang ang Curated Collection kung naa pa ang div sa HTML
@@ -386,7 +388,7 @@
 
     function render(data) {
     const grid = document.getElementById('main-products');
-    if (!grid) return; // Proteksyon kung gi-delete na nimo ang div sa HTML
+    if (!grid) return;
 
     grid.innerHTML = data.map(p => `
         <article class="product-card">
@@ -398,9 +400,15 @@
                 <h2>${p.name}</h2>
                 <p>${p.desc}</p>
 
-                <div class="review-box" style="margin-top:auto;">
+                <div class="review-box">
                     <span class="stars">${p.stars}</span>
                     "${p.review}"
+                </div>
+
+                <div class="store-btns">
+                    ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
+                    ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
+                    ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn"><i class="fa-brands fa-amazon"></i> AMAZON</a>` : ''}
                 </div>
             </div>
         </article>`).join('');
