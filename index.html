@@ -398,6 +398,29 @@
     box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
 }
 
+/* Bag-ong style para sa Trending/Hot Badge */
+.badge-hot {
+    position: absolute;
+    top: 15px;
+    right: 15px; /* Naa sa right side para contrast sa category */
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(255, 75, 43, 0.4);
+    z-index: 10;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
     </style>
 </head>
 <body>
@@ -526,37 +549,42 @@
     }
 
     function render(data) {
-        const grid = document.getElementById('main-products');
-        if (!grid) return;
+    const grid = document.getElementById('main-products');
+    if (!grid) return;
 
-        grid.innerHTML = data.map(p => {
-            const targetLink = p.amazon !== '#' ? p.amazon : (p.shopee !== '#' ? p.shopee : p.lazada);
-            return `
-            <article class="product-card">
-                <a href="${targetLink}" target="_blank" style="text-decoration: none;">
-                    <div class="image-box">
-                        <span class="badge">${p.cat}</span>
-                        <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400'">
-                    </div>
-                </a>
-                <div class="info-box">
-                    <a href="${targetLink}" target="_blank" style="text-decoration: none;">
-                        <h2>${p.name}</h2>
-                    </a>
-                    <p>${p.desc}</p>
-                    <div class="review-box">
-                        <span class="stars">${p.stars}</span>
-                        "${p.review}"
-                    </div>
-                    <div class="store-btns">
-                        ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
-                        ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
-                        ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn"><i class="fa-brands fa-amazon"></i> AMAZON</a>` : ''}
-                    </div>
+    grid.innerHTML = data.map((p, index) => {
+        const targetLink = p.amazon !== '#' ? p.amazon : (p.shopee !== '#' ? p.shopee : p.lazada);
+        
+        // Mag-butang og "HOT DEAL" sa matag ika-upat nga item
+        const hotBadge = (index % 4 === 0) ? `<span class="badge-hot"><i class="fa-solid fa-fire"></i> HOT DEAL</span>` : '';
+
+        return `
+        <article class="product-card">
+            <a href="${targetLink}" target="_blank" style="text-decoration: none;">
+                <div class="image-box">
+                    <span class="badge">${p.cat}</span>
+                    ${hotBadge}
+                    <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400'">
                 </div>
-            </article>`;
-        }).join('');
-    }
+            </a>
+            <div class="info-box">
+                <a href="${targetLink}" target="_blank" style="text-decoration: none;">
+                    <h2>${p.name}</h2>
+                </a>
+                <p>${p.desc}</p>
+                <div class="review-box">
+                    <span class="stars">${p.stars}</span>
+                    "${p.review}"
+                </div>
+                <div class="store-btns">
+                    ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
+                    ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
+                    ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn"><i class="fa-brands fa-amazon"></i> AMAZON</a>` : ''}
+                </div>
+            </div>
+        </article>`;
+    }).join('');
+}
 
     function renderRandoms(data) {
         const container = document.getElementById('random-container');
@@ -581,11 +609,18 @@
     }
 
     function loadMore() {
-        visibleCount += 10;
-        const filtered = getFilteredData();
-        render(filtered.slice(0, visibleCount));
-        updateLoadMoreButton();
-    }
+    visibleCount += 10; // Pun-an og 10 ang ihap sa ipakita
+    
+    // I-check nato kung unsa ang current nga filter (ALL, TECH, etc.) 
+    // ug kung naay gi-search ang user
+    const filtered = getFilteredData(); 
+    
+    // I-render ang sugod hangtod sa bag-ong visibleCount
+    render(filtered.slice(0, visibleCount));
+    
+    // I-update ang button (tago-on kung wala naay nabilin)
+    updateLoadMoreButton();
+}
 
     function updateLoadMoreButton() {
         const btnContainer = document.getElementById('load-more-container');
