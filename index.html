@@ -373,6 +373,31 @@
     background: rgba(255, 255, 255, 0.06);
 }
 
+.load-more-container {
+    display: none; /* Tago-on ni sa sugod, JS ang mo-pakita ani */
+    justify-content: center;
+    padding: 30px 0;
+}
+
+.load-more-btn {
+    background: transparent;
+    color: #ff69b4; /* Pinkish color parehas sa screenshot */
+    border: 2px solid #ff69b4;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.load-more-btn:hover {
+    background: #ff69b4;
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+}
+
     </style>
 </head>
 <body>
@@ -406,6 +431,12 @@
 
     <span class="section-label">Curated Collection</span>
     <div id="main-products" class="product-grid"></div>
+</div>
+
+<div id="load-more-container" class="load-more-container" style="display:none; text-align:center; margin: 20px;">
+    <button class="load-more-btn" onclick="loadMore()" style="padding: 10px 20px; cursor: pointer;">
+        LOAD MORE ITEMS
+    </button>
 </div>
 
 <a href="https://m.me/gene.guardiana" target="_blank" class="floating-msg">
@@ -451,135 +482,131 @@
     const SHEET_ID = '1QPfErsbWt-5L6seIvNJ2FOWr9CqnLUXzkV1zDlSCU2Y';
     const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
-    let allItems = [];
+    let allItems = []; // Usa ra dapat ni ka declaration
+    let visibleCount = 10; 
     let currentFilter = 'ALL';
 
     const modalData = {
-        about: `<h2>About Se7en</h2><p>Se7en is a curated digital hub dedicated to finding the perfect balance between aesthetics and function. Founded by <b>Gene Guardiana</b>, we filter through thousands of products to bring you only the best in tech, home, and lifestyle essentials.</p><p>Our mission is to help you build a setup that inspires productivity and style.</p>`,
-        privacy: `<h2>Privacy Policy</h2><p>Your privacy matters at Se7en. We do not collect personal data from our visitors. Please note that we use affiliate links from Shopee, Lazada, and Amazon.</p><p>These platforms may use cookies to track your purchases so we can earn a small commission at no extra cost to you.</p>`,
-        terms: `<h2>Terms of Service</h2><p>By using Se7en, you agree that we are a recommendation platform and not the direct seller of the items listed.</p><p>We are not responsible for product shipping, quality, or refunds—these are handled by the respective stores.</p>`,
-        contact: `<h2>Contact Us</h2><p>Have a question or a product suggestion?</p><p><b>Email:</b> guardianagene6@gmail.com</p><p><b>Messenger:</b> <a href="https://m.me/gene.guardiana" target="_blank" style="color:var(--primary); text-decoration:none;">Chat with Gene Guardiana</a></p>`
+        about: `<h2>About Se7en</h2><p>Se7en is a curated digital hub dedicated to finding the perfect balance between aesthetics and function. Founded by <b>Gene Guardiana</b>, we filter through thousands of products to bring you only the best in tech, home, and lifestyle essentials.</p>`,
+        privacy: `<h2>Privacy Policy</h2><p>Your privacy matters. We use affiliate links from Shopee, Lazada, and Amazon.</p>`,
+        terms: `<h2>Terms of Service</h2><p>By using Se7en, you agree that we are a recommendation platform and not the direct seller.</p>`,
+        contact: `<h2>Contact Us</h2><p><b>Email:</b> guardianagene6@gmail.com</p>`
     };
 
     async function loadData() {
-    const randomContainer = document.getElementById('random-container');
-    const productGrid = document.getElementById('main-products');
+        try {
+            const res = await fetch(SHEET_URL);
+            const text = await res.text();
+            const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
+            const rawData = JSON.parse(jsonStr[1]);
+            const rows = rawData.table.rows.slice(1);
 
-    try {
-        const res = await fetch(SHEET_URL);
-        const text = await res.text();
-        const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
-        const rawData = JSON.parse(jsonStr[1]);
-        
-        // .slice(1) para sugod sa Row 2 ang basahon, dili i-apil ang Header
-        const rows = rawData.table.rows.slice(1); 
+            allItems = rows.map(r => {
+                const getVal = (idx) => (r.c && r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
+                return {
+                    name: String(getVal(0)),
+                    cat: String(getVal(1)).toUpperCase(),
+                    desc: String(getVal(2)),
+                    img: String(getVal(3)),
+                    shopee: getVal(4) || '#',
+                    lazada: getVal(5) || '#',
+                    amazon: getVal(6) || '#',
+                    stars: getVal(7) || '★★★★★',
+                    review: getVal(8) || 'Must-have!'
+                };
+            }).filter(p => p.name && p.img && p.img.startsWith('http'));
 
-        allItems = rows.map(r => {
-    const getVal = (idx) => (r.c && r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
-    return {
-        name: String(getVal(0)),
-        cat: String(getVal(1)).toUpperCase(),
-        desc: String(getVal(2)),
-        img: String(getVal(3)),
-        shopee: getVal(4) || '#', // Column E
-        lazada: getVal(5) || '#',  // Column F
-        amazon: getVal(6) || '#',  // Column G
-        stars: getVal(7) || '★★★★★',
-        review: getVal(8) || 'Must-have!'
-    };
-}).filter(p => p.name && p.img && p.img.startsWith('http'));
-        renderRandoms(allItems);
-        
-        // I-render lang ang Curated Collection kung naa pa ang div sa HTML
-        if (productGrid) {
-            render(allItems);
+            renderRandoms(allItems);
+            render(allItems.slice(0, visibleCount)); // I-load lang ang unang 10
+            updateLoadMoreButton(); // I-check kung ipakita ba ang button
+
+        } catch (e) {
+            console.error("Error loading data:", e);
         }
-    } catch (e) {
-        console.error("Error loading data:", e);
     }
-}
 
     function render(data) {
-    const grid = document.getElementById('main-products');
-    if (!grid) return;
+        const grid = document.getElementById('main-products');
+        if (!grid) return;
 
-    grid.innerHTML = data.map(p => {
-        // Priority Link: Amazon -> Shopee -> Lazada
-        const targetLink = p.amazon !== '#' ? p.amazon : (p.shopee !== '#' ? p.shopee : p.lazada);
-
-        return `
-        <article class="product-card">
-            <a href="${targetLink}" target="_blank" style="text-decoration: none; display: block; overflow: hidden;">
-                <div class="image-box">
-                    <span class="badge">${p.cat}</span>
-                    <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400?text=Image+Loading...'">
-                </div>
-            </a>
-            
-            <div class="info-box">
+        grid.innerHTML = data.map(p => {
+            const targetLink = p.amazon !== '#' ? p.amazon : (p.shopee !== '#' ? p.shopee : p.lazada);
+            return `
+            <article class="product-card">
                 <a href="${targetLink}" target="_blank" style="text-decoration: none;">
-                    <h2 style="cursor: pointer;">${p.name}</h2>
+                    <div class="image-box">
+                        <span class="badge">${p.cat}</span>
+                        <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400'">
+                    </div>
                 </a>
-                <p>${p.desc}</p>
-
-                <div class="review-box">
-                    <span class="stars">${p.stars}</span>
-                    "${p.review}"
+                <div class="info-box">
+                    <a href="${targetLink}" target="_blank" style="text-decoration: none;">
+                        <h2>${p.name}</h2>
+                    </a>
+                    <p>${p.desc}</p>
+                    <div class="review-box">
+                        <span class="stars">${p.stars}</span>
+                        "${p.review}"
+                    </div>
+                    <div class="store-btns">
+                        ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
+                        ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
+                        ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn"><i class="fa-brands fa-amazon"></i> AMAZON</a>` : ''}
+                    </div>
                 </div>
-
-                <div class="store-btns">
-                    ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
-                    ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
-                    ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn"><i class="fa-brands fa-amazon"></i> AMAZON</a>` : ''}
-                </div>
-            </div>
-        </article>`;
-    }).join('');
-}
-
-   function renderRandoms(data) {
-    const container = document.getElementById('random-container');
-    if (!container) return;
-
-    // 1. I-shuffle ang tibuok data ug kuha og 3 ka random items
-    const randomItems = [...data]
-        .sort(() => Math.random() - 0.5) // Kini ang mag-shuffle sa listahan
-        .slice(0, 3); // Mokuha ra og 3 kabuok
-
-    // 2. I-duplicate para sa seamless loop animation (3 + 3 = 6)
-    const loopItems = [...randomItems, ...randomItems];
-
-    container.innerHTML = loopItems.map(p => `
-        <div class="mini-card">
-            <div class="mini-img-box">
-                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'">
-            </div>
-            <div style="margin-top: 12px;">
-                <h4 style="font-size: 0.8rem; color: var(--primary); margin: 0 0 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    ${p.name}
-                </h4>
-                <div style="color: #ffcc00; font-size: 0.7rem;">${p.stars}</div>
-            </div>
-        </div>
-    `).join('');
-}
-
-    function handleSignup(e) {
-        e.preventDefault();
-        const email = document.getElementById('subscriberEmail').value;
-        console.log("New Subscriber:", email);
-        document.getElementById('newsletterForm').style.display = 'none';
-        document.getElementById('signupMsg').style.display = 'block';
-        // Tip: Pwede ni nimo i-link sa Mailchimp o Google Sheets sa sunod.
+            </article>`;
+        }).join('');
     }
 
-    function handleSearch() {
+    function renderRandoms(data) {
+        const container = document.getElementById('random-container');
+        if (!container) return;
+        const randomItems = [...data].sort(() => Math.random() - 0.5).slice(0, 3);
+        const loopItems = [...randomItems, ...randomItems];
+        container.innerHTML = loopItems.map(p => {
+            const mainLink = p.lazada !== '#' ? p.lazada : (p.shopee !== '#' ? p.shopee : p.amazon);
+            return `
+                <div class="mini-card">
+                    <a href="${mainLink}" target="_blank" style="text-decoration: none; color: inherit;">
+                        <div class="mini-img-box">
+                            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'">
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <h4 style="font-size: 0.8rem; color: var(--primary); margin: 0;">${p.name}</h4>
+                            <div style="color: #ffcc00; font-size: 0.7rem;">${p.stars}</div>
+                        </div>
+                    </a>
+                </div>`;
+        }).join('');
+    }
+
+    function loadMore() {
+        visibleCount += 10;
+        const filtered = getFilteredData();
+        render(filtered.slice(0, visibleCount));
+        updateLoadMoreButton();
+    }
+
+    function updateLoadMoreButton() {
+        const btnContainer = document.getElementById('load-more-container');
+        const filtered = getFilteredData();
+        if (btnContainer) {
+            btnContainer.style.display = (visibleCount < filtered.length) ? 'flex' : 'none';
+        }
+    }
+
+    function getFilteredData() {
         const query = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = allItems.filter(p => 
+        return allItems.filter(p => 
             (p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query)) &&
             (currentFilter === 'ALL' || p.cat === currentFilter)
         );
-        render(filtered);
+    }
+
+    function handleSearch() {
+        visibleCount = 10; // I-reset ang count kung mag-search
+        render(getFilteredData().slice(0, visibleCount));
+        updateLoadMoreButton();
     }
 
     function filterData(cat) {
@@ -590,33 +617,25 @@
         handleSearch();
     }
 
+    function handleSignup(e) {
+        e.preventDefault();
+        document.getElementById('newsletterForm').style.display = 'none';
+        document.getElementById('signupMsg').style.display = 'block';
+    }
+
     function openModal(p) {
         document.getElementById('modal-body').innerHTML = modalData[p];
         document.getElementById('seoModal').style.display = "block";
     }
 
-    function closeModal() {
-        document.getElementById('seoModal').style.display = "none";
-    }
+    function closeModal() { document.getElementById('seoModal').style.display = "none"; }
+    window.onclick = (event) => { if (event.target == document.getElementById('seoModal')) closeModal(); }
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('seoModal')) closeModal();
-    }
-
-// Function para mo-scroll balik sa taas
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// I-check kung unsa na kalayo ang na-scroll para ipakita ang button
-window.addEventListener('scroll', () => {
-    const btn = document.getElementById('scrollTopBtn');
-    if (window.scrollY > 500) {
-        btn.classList.add('show');
-    } else {
-        btn.classList.remove('show');
-    }
-});
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('scrollTopBtn');
+        if (btn) btn.classList.toggle('show', window.scrollY > 500);
+    });
 
     window.onload = loadData;
 </script>
