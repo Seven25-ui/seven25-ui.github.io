@@ -539,34 +539,30 @@
 
    function renderRandoms(data) {
     const container = document.getElementById('random-container');
-    if (!container || data.length === 0) return;
+    if (!container) return;
 
-    // Kuhaon ang 3-5 ka items
-    const itemsToDisplay = [...data].sort(() => 0.5 - Math.random()).slice(0, 5);
-    
-    // I-duplicate para sa seamless loop
-    const loopItems = [...itemsToDisplay, ...itemsToDisplay];
+    // 1. I-shuffle ang tibuok data ug kuha og 3 ka random items
+    const randomItems = [...data]
+        .sort(() => Math.random() - 0.5) // Kini ang mag-shuffle sa listahan
+        .slice(0, 3); // Mokuha ra og 3 kabuok
 
-    container.innerHTML = loopItems.map(p => {
-        // Mag-set ta og priority link: Amazon -> Shopee -> Lazada
-        const targetLink = p.amazon !== '#' ? p.amazon : (p.shopee !== '#' ? p.shopee : p.lazada);
+    // 2. I-duplicate para sa seamless loop animation (3 + 3 = 6)
+    const loopItems = [...randomItems, ...randomItems];
 
-        return `
-            <div class="mini-card" onclick="window.open('${targetLink}', '_blank')" style="cursor: pointer;">
-                <div class="mini-img-box">
-                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'">
-                </div>
-                <div style="margin-top: 12px;">
-                    <h4 style="font-size: 0.9rem; color: var(--primary); margin: 0 0 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        ${p.name}
-                    </h4>
-                    <div style="color: #ffcc00; font-size: 0.8rem;">${p.stars}</div>
-                    <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">View Gear →</span>
-                </div>
+    container.innerHTML = loopItems.map(p => `
+        <div class="mini-card">
+            <div class="mini-img-box">
+                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'">
             </div>
-        `;
-    }).join('');
-}        
+            <div style="margin-top: 12px;">
+                <h4 style="font-size: 0.8rem; color: var(--primary); margin: 0 0 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    ${p.name}
+                </h4>
+                <div style="color: #ffcc00; font-size: 0.7rem;">${p.stars}</div>
+            </div>
+        </div>
+    `).join('');
+}
 
     function handleSignup(e) {
         e.preventDefault();
