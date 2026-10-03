@@ -7,6 +7,11 @@
     <title>Se7en • The Ultimate Tech & Lifestyle Curated Hub</title>
     <meta name="description" content="Se7en provides expert, honest reviews on the best productivity tools and lifestyle gear. Hand-picked recommendations from Shopee, Lazada, and Amazon by Gene Guardiana.">
 
+    <meta property="og:title" content="Se7en • The Ultimate Tech & Lifestyle Curated Hub">
+    <meta property="og:description" content="Hand-picked tech, home, and lifestyle finds — updated live from a single spreadsheet. No backend required.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#0b0f19">
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -40,7 +45,6 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* SEARCH & FILTER SECTION */
         .controls-wrapper {
             margin: 30px 0;
             display: flex;
@@ -84,7 +88,6 @@
 
         .section-label { font-size: 0.8rem; color: var(--primary); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 20px; display: block; }
 
-        /* QUICK RECOMMENDATIONS SLIDER */
         .random-wrapper {
             display: flex;
             gap: 15px;
@@ -120,6 +123,10 @@
             height: 150px;
             border-radius: 15px;
             overflow: hidden;
+            background: #161b22;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .mini-img-box img {
@@ -128,18 +135,22 @@
             object-fit: cover;
         }
 
+        .no-img-placeholder {
+            color: var(--text-muted);
+            font-size: 2rem;
+        }
+
         @keyframes slideLoop {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* PRODUCT GRID */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 15px; }
         .product-card {
             background: var(--card); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05); overflow: hidden; display: flex; flex-direction: column; transition: 0.4s;
         }
         .product-card:hover { border-color: var(--primary); }
-        .image-box { position: relative; width: 100%; height: 260px; background: #161b22; }
+        .image-box { position: relative; width: 100%; height: 260px; background: #161b22; display: flex; align-items: center; justify-content: center; }
         .product-img { width: 100%; height: 100%; object-fit: cover; }
         .badge { position: absolute; top: 20px; left: 20px; background: var(--primary); color: #000; padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; z-index: 5; }
 
@@ -187,7 +198,6 @@
         }
         .stars { color: #ffcc00; display: block; font-style: normal; margin-bottom: 5px; }
 
-        /* LOAD MORE BUTTON */
         .load-more-container {
             display: none;
             justify-content: center;
@@ -214,7 +224,43 @@
             transform: translateY(-2px);
         }
 
-        /* NEWSLETTER SECTION */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            grid-column: 1 / -1;
+        }
+
+        /* LOADING SKELETON */
+        .skeleton-card {
+            background: var(--card);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+            height: 480px;
+        }
+        .skeleton-shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+        }
+        .skeleton-img { height: 260px; }
+        .skeleton-line { height: 14px; border-radius: 7px; margin: 20px 25px 0; }
+        .skeleton-line.short { width: 60%; }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .demo-notice {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+        .demo-notice i { color: var(--primary); margin-right: 6px; }
+
         .newsletter-section { padding: 60px 15px; }
         .newsletter-card {
             background: linear-gradient(135deg, var(--accent), #1a1e2e);
@@ -244,7 +290,6 @@
             .newsletter-card button { width: auto; padding: 0 40px; }
         }
 
-        /* MODAL & FLOATING BUTTONS */
         .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
         .modal-content { background: var(--bg); margin: 5% auto; padding: 40px; border-radius: 30px; max-width: 600px; border: 1px solid var(--primary); position: relative; }
         .close { position: absolute; top: 20px; right: 25px; color: var(--primary); font-size: 30px; cursor: pointer; }
@@ -268,7 +313,6 @@
         .footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 10px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
         .footer-links a:hover { color: var(--primary); }
 
-        /* RESPONSIVE ADJUSTMENTS */
         @media (max-width: 600px) {
             .logo { font-size: 2.5rem; letter-spacing: -2px; }
             .product-grid { grid-template-columns: 1fr; padding: 0 10px; gap: 20px; }
@@ -312,6 +356,8 @@
     <div id="random-container-parent">
         <div class="random-wrapper" id="random-container"></div>
     </div>
+
+    <div id="demoNotice" class="demo-notice" style="display:none;"><i class="fa-solid fa-circle-info"></i>Showing sample data — live sheet is unavailable right now.</div>
 
     <span class="section-label">Curated Collection</span>
     <div id="main-products" class="product-grid"></div>
@@ -363,6 +409,14 @@
 <script>
     const SHEET_ID = '1QPfErsbWt-5L6seIvNJ2FOWr9CqnLUXzkV1zDlSCU2Y';
     const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+    const FALLBACK_IMG = 'https://placehold.co/400x300/161b22/ff9acb?text=No+Image';
+
+    // Shown only if the live Google Sheet can't be reached (keeps the portfolio demo looking complete).
+    const DEMO_ITEMS = [
+        { name: 'Minimalist Mechanical Keyboard', cat: 'TECH', desc: 'Compact 65% layout, hot-swappable sockets, linear red switches.', img: 'https://placehold.co/400x300/161b22/ff9acb?text=Keyboard', shopee: '#', lazada: '#', amazon: '#', stars: '★★★★★', review: 'The typing experience is top-notch.' },
+        { name: 'Ergonomic Mesh Chair', cat: 'HOME', desc: 'High-back rolling chair with 2D arms and lumbar support.', img: 'https://placehold.co/400x300/161b22/ff9acb?text=Chair', shopee: '#', lazada: '#', amazon: '#', stars: '★★★★☆', review: 'Very comfortable, a bit tricky to assemble.' },
+        { name: 'Tech Organizer Pouch', cat: 'STYLE', desc: 'Waterproof, double-layer cable and accessory carry case.', img: 'https://placehold.co/400x300/161b22/ff9acb?text=Pouch', shopee: '#', lazada: '#', amazon: '#', stars: '★★★★★', review: 'Everything stays organized.' }
+    ];
 
     let allItems = []; 
     let visibleCount = 10; 
@@ -376,6 +430,7 @@
     };
 
     async function loadData() {
+        showSkeleton();
         try {
             const res = await fetch(SHEET_URL);
             const text = await res.text();
@@ -396,7 +451,14 @@
                     stars: getVal(7) || '★★★★★',
                     review: getVal(8) || 'Must-have!'
                 };
-            }).filter(p => p.name && p.img && p.img.startsWith('http'));
+            }).filter(p => p.name);
+
+            // Warn in console if shopee and lazada links are identical (data entry mistake in the sheet)
+            allItems.forEach(p => {
+                if (p.shopee !== '#' && p.shopee === p.lazada) {
+                    console.warn(`Check your sheet: "${p.name}" has the same link for Shopee and Lazada.`);
+                }
+            });
 
             renderRandoms(allItems);
             render(allItems.slice(0, visibleCount)); 
@@ -404,16 +466,41 @@
 
         } catch (e) {
             console.error("Error loading data:", e);
+            // Fall back to demo data so the page never looks broken or empty.
+            allItems = DEMO_ITEMS;
+            const notice = document.getElementById('demoNotice');
+            if (notice) notice.style.display = 'block';
+            renderRandoms(allItems);
+            render(allItems.slice(0, visibleCount));
+            updateLoadMoreButton();
         }
+    }
+
+    function showSkeleton() {
+        const grid = document.getElementById('main-products');
+        if (!grid) return;
+        grid.innerHTML = Array(6).fill(0).map(() => `
+            <div class="skeleton-card">
+                <div class="skeleton-img skeleton-shimmer"></div>
+                <div class="skeleton-line skeleton-shimmer"></div>
+                <div class="skeleton-line short skeleton-shimmer"></div>
+                <div class="skeleton-line skeleton-shimmer" style="margin-top:30px;"></div>
+            </div>`).join('');
     }
 
     function render(data) {
         const grid = document.getElementById('main-products');
         if (!grid) return;
 
+        if (data.length === 0) {
+            grid.innerHTML = `<div class="empty-state">No products found. Try a different search or category.</div>`;
+            return;
+        }
+
         grid.innerHTML = data.map((p, index) => {
             const targetLink = p.amazon !== '#' ? p.amazon : (p.shopee !== '#' ? p.shopee : p.lazada);
             const hotBadge = (index % 4 === 0) ? `<span class="badge-hot"><i class="fa-solid fa-fire"></i> HOT DEAL</span>` : '';
+            const imgSrc = p.img && p.img.startsWith('http') ? p.img : FALLBACK_IMG;
 
             return `
             <article class="product-card">
@@ -421,7 +508,7 @@
                     <div class="image-box">
                         <span class="badge">${p.cat}</span>
                         ${hotBadge}
-                        <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400'">
+                        <img src="${imgSrc}" class="product-img" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
                     </div>
                 </a>
                 <div class="info-box">
@@ -446,15 +533,17 @@
     function renderRandoms(data) {
         const container = document.getElementById('random-container');
         if (!container) return;
+        if (data.length === 0) return;
         const randomItems = [...data].sort(() => Math.random() - 0.5).slice(0, 3);
         const loopItems = [...randomItems, ...randomItems];
         container.innerHTML = loopItems.map(p => {
             const mainLink = p.lazada !== '#' ? p.lazada : (p.shopee !== '#' ? p.shopee : p.amazon);
+            const imgSrc = p.img && p.img.startsWith('http') ? p.img : FALLBACK_IMG;
             return `
                 <div class="mini-card">
                     <a href="${mainLink}" target="_blank" style="text-decoration: none; color: inherit;">
                         <div class="mini-img-box">
-                            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'">
+                            <img src="${imgSrc}" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
                         </div>
                         <div style="margin-top: 12px;">
                             <h4 style="font-size: 0.8rem; color: var(--primary); margin: 0;">${p.name}</h4>
