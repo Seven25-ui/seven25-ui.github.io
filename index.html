@@ -1,617 +1,2300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1b1e27">
+<meta name="description" content="Aloygene — Gene Cartalla Guardiana. Self-taught web developer, builder, learner, and music lover.">
+<meta name="author" content="Gene Cartalla Guardiana">
+<meta property="og:title" content="Aloygene | Gene Cartalla Guardiana">
+<meta property="og:description" content="Self-taught web developer, builder, learner, and music lover.">
+<meta property="og:type" content="website">
+<title>Aloygene | Gene Cartalla Guardiana</title>
 
-    <title>Se7en • The Ultimate Tech & Lifestyle Curated Hub</title>
-    <meta name="description" content="Se7en provides expert, honest reviews on the best productivity tools and lifestyle gear. Hand-picked recommendations from Shopee, Lazada, and Amazon by Gene Guardiana.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <meta property="og:title" content="Se7en • The Ultimate Tech & Lifestyle Curated Hub">
-    <meta property="og:description" content="Hand-picked tech, home, and lifestyle finds — updated live from a single spreadsheet. No backend required.">
-    <meta property="og:type" content="website">
-    <meta name="theme-color" content="#0b0f19">
+<style>
+:root{
+    --bg:#f3efe6;
+    --bg-alt:#ffffff;
+    --panel:#ffffff;
+    --line:rgba(28,29,34,0.10);
+    --text:#1c1d22;
+    --text-dim:#5b5c66;
+    --accent:#c06a2c;
+    --accent-2:#3f7d76;
+    --radius:10px;
+    --serif:'Fraunces', serif;
+    --sans:'Poppins', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+  }
+  h1,h2,h3{font-family:var(--serif); font-weight:600; margin:0;}
+  a{color:var(--accent-2); text-decoration:none;}
+  a:hover{color:var(--accent);}
+  img{max-width:100%; display:block;}
+  ::selection{background:var(--accent); color:#1b1e27;}
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px;}
 
-    <style>
-        :root {
-            --primary: #ff9acb;
-            --accent: #77216F;
-            --bg: #0b0f19;
-            --card: rgba(255, 255, 255, 0.03);
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-        }
+  /* ============ HEADER ============ */
+  header.top{
+    padding:52px 20px 34px;
+    text-align:center;
+    position:relative;
+  }
+  .avatar-block{
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+  }
+  .profile-img{
+    width:104px; height:104px; border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--accent);
+    padding:3px;
+  }
+  header.top h1{font-size: clamp(1.6rem, 4vw, 2.2rem);}
+  .alias-line{
+    color:var(--text-dim);
+    font-size:14px;
+    margin-top:6px;
+  }
+  .alias-line strong{color:var(--accent);}
+  .status-row{
+    display:flex; gap:14px; justify-content:center; margin-top:14px;
+    font-size:12.5px; color:var(--text-dim);
+    flex-wrap:wrap;
+  }
+  .status-row span{
+    display:flex; align-items:center; gap:6px;
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    padding:5px 12px;
+    border-radius:20px;
+  }
+  .status-row img{width:16px; height:16px;}
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            margin: 0; padding: 0;
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
+  /* ============ NAV (hamburger) ============ */
+  #hamburgerMenu{position:fixed; top:18px; left:18px; z-index:1000;}
+  #hamburgerIcon{
+    width:26px; height:20px; display:flex; flex-direction:column;
+    justify-content:space-between; cursor:pointer;
+  }
+  #hamburgerIcon span{
+    display:block; height:2px; background:var(--text); border-radius:2px; transition:.3s;
+  }
+  #menuLinks{
+    list-style:none; margin:0; padding:0; position:absolute; top:34px; left:0;
+    display:flex; flex-direction:column; gap:8px; opacity:0; pointer-events:none; transition:.25s;
+  }
+  #menuLinks li a{
+    display:flex; align-items:center; justify-content:center;
+    width:36px; height:36px; background:var(--panel); border:1px solid var(--line);
+    color:var(--text); font-size:14px; border-radius:8px;
+  }
+  #menuLinks li a:hover{ color:var(--accent); border-color:var(--accent); }
+  #hamburgerMenu.open #menuLinks{opacity:1; pointer-events:auto;}
+  #hamburgerMenu.open #hamburgerIcon span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+  #hamburgerMenu.open #hamburgerIcon span:nth-child(2){opacity:0;}
+  #hamburgerMenu.open #hamburgerIcon span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
 
-        header {
-            padding: 60px 20px;
-            text-align: center;
-            background: radial-gradient(circle at top, var(--accent), var(--bg));
-        }
-        .logo { font-size: 4rem; font-weight: 800; margin: 0; letter-spacing: -4px; cursor: pointer; }
-        .logo span { color: var(--primary); }
-        .tagline { text-transform: uppercase; letter-spacing: 6px; font-size: 0.75rem; color: var(--primary); font-weight: bold; margin-top: 10px; }
+  /* ============ SECTIONS ============ */
+  section{
+    padding:44px 0;
+    border-top:1px solid var(--line);
+  }
+  section:first-of-type{border-top:none;}
+  .section-label{
+    font-size:12.5px; color:var(--accent); margin-bottom:6px; font-weight:600;
+  }
+  section h2{font-size:1.4rem; margin-bottom:18px;}
+  .card{
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 20px;
+  }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  /* ============ ABOUT / SKILLS ============ */
+  #about p{color:var(--text); font-size:15px;}
+  .skills-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .skills-list span{
+    background:var(--panel); border:1px solid var(--line);
+    padding:6px 13px; border-radius:20px; font-size:13px; color:var(--text-dim);
+  }
 
-        .controls-wrapper {
-            margin: 30px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
+  /* ============ MUSIC (mixtape tracklist) ============ */
+  .tracklist{border-top:1px solid var(--line); margin-top:6px;}
+  .track-row{
+    display:flex; align-items:center; gap:12px;
+    padding:10px 4px; border-bottom:1px solid var(--line);
+    cursor:pointer; transition:.15s;
+  }
+  .track-row:hover{background:var(--bg-alt);}
+  .track-row.active{background:var(--panel);}
+  .track-num{
+    width:22px; text-align:right; color:var(--text-dim); font-size:13px; font-variant-numeric:tabular-nums;
+  }
+  .track-row.active .track-num{color:var(--accent);}
+  .track-cover{width:42px; height:42px; border-radius:6px; overflow:hidden; flex-shrink:0;}
+  .track-cover img{width:100%; height:100%; object-fit:cover;}
+  .track-info{flex:1; min-width:0;}
+  .track-title{font-size:14px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .track-artist{font-size:12px; color:var(--text-dim);}
+  .track-row .fa-play{color:var(--text-dim); font-size:13px;}
+  .track-row.active .fa-play{color:var(--accent);}
 
-        .search-box {
-            width: 100%;
-            max-width: 500px;
-            position: relative;
-        }
+  #loadMoreBtn{
+    display:block; margin:16px auto 0; background:none; border:1px solid var(--line);
+    color:var(--text-dim); padding:8px 18px; border-radius:20px; cursor:pointer; font-family:var(--sans); font-size:13px;
+  }
+  #loadMoreBtn:hover{color:var(--accent); border-color:var(--accent);}
 
-        .search-box input {
-            width: 100%;
-            padding: 15px 25px;
-            padding-left: 50px;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: var(--card);
-            color: #fff;
-            font-family: inherit;
-            outline: none;
-            transition: 0.3s;
-        }
+  .player{
+    margin-top:22px; border-radius:var(--radius); overflow:hidden; position:relative;
+    background:var(--bg-alt); border:1px solid var(--line);
+  }
+  .player-bg{
+    position:absolute; inset:0; background-size:cover; background-position:center;
+    filter:blur(20px) brightness(0.35); transition:.4s;
+  }
+  .player-content{position:relative; z-index:1; padding:18px; display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center;}
+  .player-cover{width:130px; height:130px; border-radius:10px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.4);}
+  .player-cover img{width:100%; height:100%; object-fit:cover;}
+  .now-title{font-weight:600; font-size:16px; color:#fff;}
+  .now-artist{font-size:13px; color:rgba(255,255,255,.7); margin-top:2px;}
+  .progress-wrap{display:flex; align-items:center; gap:10px; width:100%; max-width:360px;}
+  .time{font-size:11px; color:rgba(255,255,255,.75); font-variant-numeric:tabular-nums;}
+  .progress{flex:1; height:5px; border-radius:5px; accent-color:var(--accent); cursor:pointer;}
+  .controls{display:flex; gap:10px; align-items:center;}
+  .big-btn{
+    width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,.2);
+    background:rgba(255,255,255,.08); color:#fff; display:grid; place-items:center;
+    cursor:pointer; font-size:14px; transition:.2s;
+  }
+  .big-btn:hover{background:rgba(255,255,255,.2);}
+  #playBtn{width:46px; height:46px; font-size:16px; background:var(--accent); border:none; color:#1b1e27;}
+  .toggled{color:var(--accent) !important;}
+  .vol{width:90px; accent-color:var(--accent);}
 
-        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255,154,203,0.2); }
-        .search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--primary); }
+  /* ============ GALLERY ============ */
+  #fileInput{
+    display:inline-block; margin-bottom:14px; color:var(--text-dim); font-size:13px;
+  }
+  #galleryDrop{
+    display:flex; flex-wrap:wrap; gap:8px; padding:14px;
+    border:1.5px dashed var(--line); border-radius:var(--radius);
+    background:var(--bg-alt); min-height:60px;
+  }
+  #galleryDrop p{color:var(--text-dim); font-size:13px; margin:0;}
+  .media-item{width:100px; height:74px; object-fit:cover; border-radius:6px; cursor:pointer;}
+  .sample-videos{display:grid; gap:12px; margin-top:18px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .sample-videos video{width:100%; border-radius:8px;}
 
-        .filter-tabs {
-            display: flex; gap: 10px; overflow-x: auto; width: 100%; justify-content: center; padding-bottom: 5px; scrollbar-width: none;
-        }
-        .filter-tabs::-webkit-scrollbar { display: none; }
+  /* ============ LIVE PHOTOS (unsplash) ============ */
+  .unsplash-search{display:flex; gap:8px; margin-bottom:14px;}
+  .unsplash-search input{
+    flex:1; padding:9px 12px; border-radius:8px; border:1px solid var(--line);
+    background:var(--bg-alt); color:var(--text); font-family:var(--sans); outline:none;
+  }
+  .unsplash-search button{
+    padding:9px 16px; border-radius:8px; border:none; background:var(--accent); color:#1b1e27;
+    font-weight:600; cursor:pointer; font-family:var(--sans);
+  }
+  #unsplashGallery{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px;}
+  .unsplash-card{aspect-ratio:4/3; border-radius:8px; background-size:cover; background-position:center; cursor:pointer;}
 
-        .filter-btn {
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted);
-            padding: 8px 20px; border-radius: 50px; cursor: pointer; font-weight: 800; font-size: 0.7rem; white-space: nowrap; transition: 0.3s;
-        }
-        .filter-btn.active, .filter-btn:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+  /* ============ LIGHTBOX ============ */
+  #lightbox{
+    position:fixed; inset:0; background:rgba(10,10,14,.92); display:flex; justify-content:center; align-items:center;
+    visibility:hidden; opacity:0; transition:.25s; z-index:9999;
+  }
+  #lightbox img{max-width:90%; max-height:85%; border-radius:10px;}
+  #lightbox span.close{position:absolute; top:20px; right:26px; font-size:2.2rem; color:#fff; cursor:pointer;}
+  #lightbox span.arrow{position:absolute; top:50%; font-size:2.2rem; color:#fff; cursor:pointer; transform:translateY(-50%);}
+  #lightbox span.arrow.left{left:20px;} #lightbox span.arrow.right{right:20px;}
 
-        .section-label { font-size: 0.8rem; color: var(--primary); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 20px; display: block; }
+  /* ============ QUOTES ============ */
+  .quotes-box{
+    font-family:var(--serif); font-size:1.05rem; font-style:italic; color:var(--text);
+    padding:6px 0; min-height:2.4em;
+  }
 
-        .random-wrapper {
-            display: flex;
-            gap: 15px;
-            width: max-content;
-            animation: slideLoop 20s linear infinite;
-        }
+  /* ============ WEATHER ============ */
+  .weather-floating{
+    position:fixed; left:16px; top:200px; z-index:998;
+    display:flex; align-items:center; gap:6px; padding:6px 12px;
+    background:var(--panel); border:1px solid var(--line); border-radius:20px;
+    font-size:12.5px; cursor:grab; color:var(--text);
+  }
+  .weather-floating img{width:22px;}
 
-        #random-container-parent {
-            width: 100%;
-            overflow: hidden;
-            padding: 20px 0;
-            position: relative;
-        }
+  /* ============ WORD OF THE DAY POPUP ============ */
+  .word-overlay{
+    display:none; position:fixed; inset:0; background:rgba(10,10,14,.75); z-index:9999;
+  }
+  .word-overlay.active{display:flex; justify-content:center; align-items:center;}
+  .word-popup{
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:14px;
+    padding:34px; max-width:420px; width:88%; text-align:center; position:relative;
+    color:var(--text);
+  }
+  .close-btn{
+    position:absolute; top:12px; right:16px; font-size:24px; background:none; border:none;
+    color:var(--text-dim); cursor:pointer; line-height:1;
+  }
+  .close-btn:hover{color:var(--text);}
+  .word-header{font-size:12.5px; color:var(--accent); margin-bottom:8px;}
+  .word-main{font-family:var(--serif); font-size:2.1rem; margin:8px 0;}
+  .word-translation{font-size:1.1rem; color:var(--accent-2); font-style:italic; margin:8px 0;}
+  .word-definition{font-size:14px; color:var(--text-dim); margin-top:16px; padding-top:16px; border-top:1px solid var(--line);}
+  .word-example{font-size:13px; color:var(--text-dim); margin-top:10px; font-style:italic;}
 
-        .mini-card {
-            width: 280px; 
-            flex-shrink: 0;
-            background: var(--card);
-            border-radius: 20px;
-            padding: 15px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
+  /* ============ TOAST ============ */
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--panel); color:var(--text); border:1px solid var(--line);
+    padding:11px 20px; border-radius:10px; font-size:13px; opacity:0; pointer-events:none;
+    transition:.3s; z-index:1000; display:flex; align-items:center; gap:8px;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 
-        .mini-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.06);
-        }
+  /* ============ FOOTER ============ */
+  footer{
+    text-align:center; padding:34px 20px 90px; border-top:1px solid var(--line); margin-top:20px;
+  }
+  footer p{color:var(--text-dim); font-size:13px;}
+  .footer-icons{margin-top:12px; display:flex; justify-content:center; gap:16px;}
+  .footer-icons a{color:var(--text); font-size:19px;}
+  .footer-icons a:hover{color:var(--accent);}
 
-        .mini-img-box {
-            width: 100%;
-            height: 150px;
-            border-radius: 15px;
-            overflow: hidden;
-            background: #161b22;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+  .bmc-float{
+    position:fixed; bottom:16px; right:16px; background:var(--accent); color:#1b1e27;
+    padding:9px 14px; border-radius:24px; display:flex; align-items:center; gap:7px;
+    font-size:12.5px; font-weight:600; cursor:grab; box-shadow:0 6px 18px rgba(0,0,0,.35); z-index:999;
+  }
+  .bmc-float img{width:18px; height:18px;}
 
-        .mini-img-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+  @media(max-width:600px){
+    .profile-img{width:88px; height:88px;}
+    .player-cover{width:100px; height:100px;}
+  }
+  /* ============ POLISH / UX UPGRADES ============ */
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+  body{
+    overflow-x:hidden;
+  }
+  ::-webkit-scrollbar{width:9px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--panel);border-radius:20px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent);}
 
-        .no-img-placeholder {
-            color: var(--text-muted);
-            font-size: 2rem;
-        }
+  header.top{
+    min-height:420px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  header.top::before,
+  header.top::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    filter:blur(4px);
+    pointer-events:none;
+  }
+  header.top::before{
+    width:280px;height:280px;
+    background:radial-gradient(circle,rgba(217,142,74,.18),transparent 68%);
+    top:-110px;left:-100px;
+  }
+  header.top::after{
+    width:320px;height:320px;
+    background:radial-gradient(circle,rgba(111,168,160,.14),transparent 68%);
+    bottom:-160px;right:-120px;
+  }
+  .avatar-block{
+    position:relative;
+    z-index:1;
+  }
+  .profile-img{
+    box-shadow:0 0 0 7px rgba(217,142,74,.08),0 18px 50px rgba(0,0,0,.28);
+    transition:transform .35s ease,box-shadow .35s ease;
+  }
+  .profile-img:hover{
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:0 0 0 9px rgba(217,142,74,.11),0 22px 60px rgba(0,0,0,.34);
+  }
+  .hero-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-bottom:10px;
+    color:var(--accent);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+  .hero-kicker::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 5px rgba(217,142,74,.10);
+  }
+  .hero-actions{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:20px;
+  }
+  .hero-actions a{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:9px 14px;
+    border:1px solid var(--line);
+    border-radius:22px;
+    background:var(--bg-alt);
+    color:var(--text);
+    font-size:12px;
+    transition:.2s ease;
+  }
+  .hero-actions a.primary{
+    background:var(--accent);
+    color:#1b1e27;
+    border-color:transparent;
+    font-weight:600;
+  }
+  .hero-actions a:hover{
+    transform:translateY(-2px);
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  .hero-actions a.primary:hover{color:#1b1e27;}
 
-        @keyframes slideLoop {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+  #hamburgerMenu{
+    transition:transform .2s ease;
+  }
+  #hamburgerIcon{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:9px;
+    width:42px;height:42px;
+    padding:10px 8px;
+    box-shadow:0 8px 24px rgba(0,0,0,.14);
+  }
+  #hamburgerIcon span{height:2px;}
+  #menuLinks{
+    top:48px;
+  }
+  #menuLinks li a{
+    box-shadow:0 8px 22px rgba(0,0,0,.16);
+  }
+  #menuLinks li a.active{
+    color:var(--accent);
+    border-color:var(--accent);
+  }
 
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 15px; }
-        .product-card {
-            background: var(--card); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05); overflow: hidden; display: flex; flex-direction: column; transition: 0.4s;
-        }
-        .product-card:hover { border-color: var(--primary); }
-        .image-box { position: relative; width: 100%; height: 260px; background: #161b22; display: flex; align-items: center; justify-content: center; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; }
-        .badge { position: absolute; top: 20px; left: 20px; background: var(--primary); color: #000; padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; z-index: 5; }
+  section{
+    scroll-margin-top:18px;
+  }
+  .section-heading-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:12px;
+  }
+  .section-hint{
+    color:var(--text-dim);
+    font-size:11px;
+  }
+  .card{
+    box-shadow:0 8px 30px rgba(0,0,0,.05);
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .card:hover{
+    transform:translateY(-2px);
+    border-color:rgba(217,142,74,.22);
+    box-shadow:0 12px 34px rgba(0,0,0,.08);
+  }
 
-        .badge-hot {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(255, 75, 43, 0.4);
-            z-index: 10;
-            animation: pulse 1.5s infinite;
-        }
+  .skills-list span{
+    transition:.2s ease;
+  }
+  .skills-list span:hover{
+    color:var(--text);
+    border-color:var(--accent);
+    transform:translateY(-2px);
+  }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+  /* Music upgrades */
+  .music-section{
+    position:relative;
+  }
+  .music-toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:0 0 10px;
+  }
+  .music-count{
+    color:var(--text-dim);
+    font-size:11px;
+  }
+  .track-row{
+    position:relative;
+    border-radius:8px;
+    padding:10px 8px;
+  }
+  .track-row::before{
+    content:"";
+    position:absolute;
+    left:0;top:8px;bottom:8px;width:3px;
+    background:var(--accent);
+    border-radius:4px;
+    transform:scaleY(0);
+    transition:.18s;
+  }
+  .track-row.active::before{transform:scaleY(1);}
+  .track-row.active .track-cover{
+    box-shadow:0 0 0 2px rgba(217,142,74,.18);
+  }
+  .track-row.playing .track-cover img{
+    animation:coverPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes coverPulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.035);}
+  }
+  .track-row .fa-play{
+    width:22px;
+    text-align:center;
+  }
+  .player{
+    box-shadow:0 18px 45px rgba(0,0,0,.15);
+  }
+  .player-cover{
+    position:relative;
+    box-shadow:0 12px 35px rgba(0,0,0,.42);
+    transition:transform .3s ease;
+  }
+  .player.playing .player-cover{
+    animation:playerFloat 3s ease-in-out infinite;
+  }
+  @keyframes playerFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-4px);}
+  }
+  .player-content{
+    padding:24px 18px 20px;
+  }
+  .now-title{
+    max-width:90vw;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .player-status{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    min-height:16px;
+    color:rgba(255,255,255,.62);
+    font-size:10px;
+  }
+  .player-status .dot{
+    width:5px;height:5px;border-radius:50%;
+    background:var(--accent);
+  }
+  .equalizer{
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap:3px;
+    height:15px;
+    margin-top:2px;
+  }
+  .equalizer span{
+    width:3px;
+    height:5px;
+    border-radius:3px;
+    background:var(--accent);
+  }
+  .player.playing .equalizer span{
+    animation:eq .8s ease-in-out infinite alternate;
+  }
+  .player.playing .equalizer span:nth-child(2){animation-delay:.15s}
+  .player.playing .equalizer span:nth-child(3){animation-delay:.3s}
+  .player.playing .equalizer span:nth-child(4){animation-delay:.45s}
+  @keyframes eq{
+    from{height:4px;}
+    to{height:15px;}
+  }
+  .volume-row{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:rgba(255,255,255,.7);
+  }
+  .volume-row i{font-size:11px;}
+  .keyboard-hint{
+    color:rgba(255,255,255,.52);
+    font-size:9.5px;
+    margin-top:-2px;
+  }
+  .mini-player{
+    position:fixed;
+    left:50%;
+    bottom:16px;
+    transform:translate(-50%,20px);
+    width:min(680px,calc(100% - 28px));
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 11px;
+    background:rgba(27,30,39,.92);
+    border:1px solid rgba(255,255,255,.10);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-radius:16px;
+    box-shadow:0 16px 40px rgba(0,0,0,.3);
+    opacity:0;
+    pointer-events:none;
+    z-index:997;
+    transition:.25s ease;
+  }
+   .mini-player{
+    background:rgba(255,255,255,.92);
+    border-color:rgba(28,29,34,.10);
+  }
+  .mini-player.show{
+    opacity:1;
+    transform:translate(-50%,0);
+    pointer-events:auto;
+  }
+  .mini-player img{
+    width:38px;height:38px;border-radius:7px;object-fit:cover;flex:0 0 auto;
+  }
+  .mini-info{min-width:0;flex:1;}
+  .mini-title{
+    color:#fff;font-size:11.5px;font-weight:600;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+   .mini-title{color:var(--text);}
+  .mini-artist{font-size:9.5px;color:var(--text-dim);}
+  .mini-player button{
+    width:31px;height:31px;border-radius:50%;border:1px solid var(--line);
+    background:var(--panel);color:var(--text);cursor:pointer;
+  }
+  .mini-player button:hover{border-color:var(--accent);color:var(--accent);}
 
-        .info-box { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
-        .info-box h2 { font-size: 1.4rem; margin: 0 0 10px; color: var(--primary); }
-        .info-box p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
+  /* Gallery upgrades */
+  #galleryDrop{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+    align-items:start;
+    gap:10px;
+    min-height:96px;
+    transition:.2s ease;
+  }
+  #galleryDrop.drag-over{
+    border-color:var(--accent);
+    background:rgba(217,142,74,.06);
+    transform:scale(1.005);
+  }
+  #galleryDrop p{
+    grid-column:1/-1;
+    padding:12px 4px;
+    text-align:center;
+  }
+  .media-wrap{
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    background:var(--panel);
+    aspect-ratio:4/3;
+  }
+  .media-wrap .media-item{
+    width:100%;height:100%;
+    display:block;
+    border-radius:0;
+    transition:transform .25s ease;
+  }
+  .media-wrap:hover .media-item{transform:scale(1.04);}
+  .media-badge{
+    position:absolute;left:6px;bottom:6px;
+    padding:3px 6px;border-radius:5px;
+    background:rgba(0,0,0,.62);color:#fff;
+    font-size:9px;
+    pointer-events:none;
+  }
+  .sample-video-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    background:var(--panel);
+  }
+  .sample-video-card video{
+    display:block;
+    width:100%;
+    max-width:100%;
+    border-radius:8px;
+    background:#000;
+  }
+  .media-status{
+    display:block;
+    padding:7px 9px;
+    color:var(--text-dim);
+    font-size:11px;
+    text-align:center;
+  }
+  .sample-video-card.loaded .media-status{display:none;}
+  .sample-video-card.error .media-status{
+    color:#b44;
+  }
+  .sample-videos video{
+    background:var(--panel);
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+  }
 
-        .store-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .btn { padding: 12px 5px; border-radius: 12px; text-decoration: none; text-align: center; font-weight: 800; font-size: 0.65rem; color: #fff; transition: 0.3s; }
-        .s-btn { background: #ee4d2d; } 
-        .l-btn { background: #0f146d; } 
-        .a-btn { background-color: #ff9900 !important; color: #000000 !important; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; }
-        .a-btn:hover { background-color: #e68a00 !important; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3); }
-        .btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+  /* Unsplash upgrades */
+  .unsplash-card{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    transition:transform .2s ease,box-shadow .2s ease;
+  }
+  .unsplash-card::after{
+    content:"View";
+    position:absolute;inset:auto 7px 7px auto;
+    padding:3px 7px;border-radius:5px;
+    background:rgba(0,0,0,.55);color:#fff;font-size:9px;
+    opacity:0;transition:.2s;
+  }
+  .unsplash-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px rgba(0,0,0,.18);
+  }
+  .unsplash-card:hover::after{opacity:1;}
 
-        .review-box {
-            margin-top: auto;
-            padding: 15px 0;
-            border-top: 1px dashed rgba(255,255,255,0.1);
-            font-size: 0.8rem;
-            font-style: italic;
-            color: var(--text-muted);
-        }
-        .stars { color: #ffcc00; display: block; font-style: normal; margin-bottom: 5px; }
+  /* Lightbox */
+  #lightbox{
+    padding:20px;
+    touch-action:none;
+  }
+  #lightbox img{
+    box-shadow:0 20px 70px rgba(0,0,0,.55);
+    user-select:none;
+  }
+  #lightbox .close,
+  #lightbox .arrow{
+    width:44px;height:44px;
+    display:grid;place-items:center;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+  }
+  #lightbox .close:hover,
+  #lightbox .arrow:hover{
+    background:rgba(255,255,255,.18);
+  }
 
-        .load-more-container {
-            display: none;
-            justify-content: center;
-            padding: 40px 0;
-        }
+  /* Weather / floating controls */
+  .weather-floating{
+    user-select:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.15);
+    transition:box-shadow .2s ease;
+  }
+  .weather-floating.dragging{
+    cursor:grabbing;
+    box-shadow:0 14px 35px rgba(0,0,0,.25);
+  }
 
-        .load-more-btn {
-            background: transparent;
-            color: #ff69b4;
-            border: 2px solid #ff69b4;
-            padding: 12px 35px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
+  /* Word popup */
+  .word-overlay{backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
+  .word-popup{
+    box-shadow:0 25px 80px rgba(0,0,0,.35);
+    animation:popupIn .25s ease;
+  }
+  @keyframes popupIn{
+    from{opacity:0;transform:translateY(12px) scale(.98);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
 
-        .load-more-btn:hover {
-            background: #ff69b4;
-            color: white;
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
-            transform: translateY(-2px);
-        }
+  .toast{
+    max-width:min(92vw,420px);
+    text-align:center;
+  }
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-            grid-column: 1 / -1;
-        }
+  @media(max-width:600px){
+    .wrap{padding:0 15px;}
+    header.top{
+      min-height:470px;
+      padding:76px 18px 40px;
+    }
+.status-row{gap:7px;}
+    .status-row span{padding:5px 9px;}
+    .hero-actions a{padding:8px 11px;}
+    section{padding:36px 0;}
+    section h2{font-size:1.3rem;}
+    .music-toolbar{align-items:flex-start;}
+    .player-content{padding:20px 12px 17px;}
+    .controls{gap:7px;}
+    .big-btn{width:36px;height:36px;}
+    #playBtn{width:44px;height:44px;}
+    .vol{width:100px;}
+    .progress-wrap{gap:7px;}
+    .keyboard-hint{display:none;}
+    #galleryDrop{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .sample-videos{grid-template-columns:1fr;}
+    #unsplashGallery{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .mini-player{bottom:10px;width:calc(100% - 18px);}
+    footer{padding-bottom:95px;}
+  }
 
-        /* LOADING SKELETON */
-        .skeleton-card {
-            background: var(--card);
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
-            overflow: hidden;
-            height: 480px;
-        }
-        .skeleton-shimmer {
-            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.4s infinite;
-        }
-        .skeleton-img { height: 260px; }
-        .skeleton-line { height: 14px; border-radius: 7px; margin: 20px 25px 0; }
-        .skeleton-line.short { width: 60%; }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      scroll-behavior:auto !important;
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+  }
 
-        .demo-notice {
-            text-align: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: -10px;
-            margin-bottom: 10px;
-        }
-        .demo-notice i { color: var(--primary); margin-right: 6px; }
 
-        .newsletter-section { padding: 60px 15px; }
-        .newsletter-card {
-            background: linear-gradient(135deg, var(--accent), #1a1e2e);
-            padding: 40px 20px; 
-            border-radius: 30px; 
-            text-align: center;
-            border: 1px solid rgba(255,154,203,0.2);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .newsletter-card h3 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 15px; color: #fff; }
-        .newsletter-card p { color: rgba(255,255,255,0.7); margin-bottom: 25px; font-size: 0.95rem; line-height: 1.5; }
-        .newsletter-card form { display: flex; flex-direction: column; gap: 12px; width: 100%; }
-        .newsletter-card input {
-            width: 100%; padding: 16px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.08); color: #fff; outline: none; font-size: 1rem; box-sizing: border-box;
-        }
-        .newsletter-card button {
-            width: 100%; background: var(--primary); color: #000; padding: 16px 20px; border-radius: 50px; 
-            border: none; font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.3s ease; text-transform: uppercase; box-sizing: border-box;
-        }
-        .newsletter-card button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 154, 203, 0.4); }
+/* ================= BLOG LAYOUT ================= */
+.blog-intro{
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) minmax(260px,.8fr);
+  gap:22px;
+  margin:24px 0 30px;
+}
+.blog-hero{
+  position:relative;
+  overflow:hidden;
+  padding:34px;
+  border-radius:26px;
+  background:linear-gradient(135deg,var(--panel),var(--bg-alt));
+  color:var(--text);
+  border:1px solid var(--line);
+  box-shadow:0 18px 45px rgba(0,0,0,.12);
+}
+.blog-hero h2{font-size:clamp(2rem,4vw,3.4rem);margin:8px 0 12px;line-height:1.05;color:var(--text)}
+.blog-hero p{font-size:1.03rem;line-height:1.8;max-width:720px;color:var(--text-dim)}
+.blog-kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:var(--accent)}
+.blog-note{
+  padding:26px;
+  border-radius:24px;
+  background:var(--panel);
+  color:var(--text);
+  border:1px solid var(--line);
+  box-shadow:0 14px 35px rgba(0,0,0,.10)
+}
+.blog-note h3{margin-top:0;color:var(--text)}
+.blog-note ul{padding-left:20px;line-height:1.9;color:var(--text-dim)}
+.blog-toolbar{
+  display:flex;justify-content:space-between;align-items:center;gap:15px;
+  margin:10px 0 18px;flex-wrap:wrap
+}
+.blog-toolbar h2{color:var(--text)}
+.blog-toolbar small{color:var(--text-dim)}
+.blog-search{
+  width:min(100%,360px);padding:13px 16px;border-radius:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;
+  outline:none;
+}
+.blog-search::placeholder{color:var(--text-dim)}
+.blog-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(217,142,74,.12)}
+.blog-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px
+}
+.blog-card{
+  overflow:hidden;border-radius:22px;background:var(--panel);color:var(--text);
+  border:1px solid var(--line);box-shadow:0 12px 32px rgba(0,0,0,.10);
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease
+}
+.blog-card:hover{transform:translateY(-5px);box-shadow:0 20px 42px rgba(0,0,0,.16);border-color:var(--accent)}
+.blog-thumb{
+  position:relative;
+  height:210px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--bg-alt),var(--panel));
+  color:var(--accent);
+  border-bottom:1px solid var(--line);
+}
+.blog-thumb::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.62),rgba(0,0,0,.04) 70%);
+  pointer-events:none;
+}
+.blog-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  filter:saturate(.9) contrast(1.02);
+  transition:transform .4s ease,filter .4s ease;
+}
+.blog-card:hover .blog-thumb img{
+  transform:scale(1.06);
+  filter:saturate(1.05) contrast(1.04);
+}
+.blog-thumb-icon{
+  position:absolute;
+  z-index:2;
+  left:18px;
+  bottom:13px;
+  font-size:2rem;
+  line-height:1;
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.45));
+}
+.blog-card-body{padding:21px}
+.blog-meta{font-size:.76rem;opacity:.8;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-2)}
+.blog-card h3{margin:9px 0 10px;font-size:1.25rem;color:var(--text)}
+.blog-card p{line-height:1.7;color:var(--text-dim)}
+.blog-tags{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0}
+.blog-tag{
+  padding:5px 9px;border-radius:999px;font-size:.72rem;font-weight:700;
+  background:var(--bg-alt);color:var(--text-dim);border:1px solid var(--line)
+}
+.blog-read{
+  display:inline-flex;align-items:center;gap:7px;font-weight:800;
+  text-decoration:none;color:var(--accent-2)
+}
+.blog-post{
+  display:none;max-width:900px;margin:0 auto;padding:34px;border-radius:24px;
+  background:var(--panel);color:var(--text);border:1px solid var(--line);
+  box-shadow:0 15px 40px rgba(0,0,0,.12)
+}
+.blog-post.active{display:block}
+.blog-post h2{font-size:clamp(2rem,4vw,3rem);margin:8px 0 14px;color:var(--text)}
+.blog-post .post-content{font-size:1.05rem;line-height:1.9;color:var(--text-dim)}
+.blog-post .post-content p{margin:0 0 1.2em}
+.blog-back{
+  border:0;background:transparent;color:var(--accent-2);font:inherit;font-weight:800;cursor:pointer;
+  margin-bottom:18px;padding:0
+}
+.blog-empty{
+  padding:30px;text-align:center;color:var(--text-dim);display:none;
+  background:var(--panel);border:1px solid var(--line);border-radius:18px
+}
+@media(max-width:800px){
+  .blog-intro{grid-template-columns:1fr}
+  .blog-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .blog-grid{grid-template-columns:1fr}
+  .blog-hero,.blog-post{padding:24px}
+}
 
-        @media (min-width: 768px) {
-            .newsletter-card form { flex-direction: row; gap: 10px; }
-            .newsletter-card input { flex: 1; }
-            .newsletter-card button { width: auto; padding: 0 40px; }
-        }
 
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
-        .modal-content { background: var(--bg); margin: 5% auto; padding: 40px; border-radius: 30px; max-width: 600px; border: 1px solid var(--primary); position: relative; }
-        .close { position: absolute; top: 20px; right: 25px; color: var(--primary); font-size: 30px; cursor: pointer; }
+/* Blog follows the site's existing  theme automatically. */
+.blog-hero,.blog-note,.blog-card,.blog-post,.blog-search,.blog-empty{
+  transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
 
-        .floating-msg {
-            position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 9999; transition: 0.3s; text-decoration: none;
-        }
-        .floating-msg:hover { transform: scale(1.1); }
 
-        .scroll-top {
-            position: fixed; bottom: 30px; left: 30px; background: rgba(255, 255, 255, 0.05); color: var(--primary);
-            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 20px; cursor: pointer; border: 1px solid rgba(255, 154, 203, 0.3); backdrop-filter: blur(10px);
-            transition: 0.3s; opacity: 0; visibility: hidden; z-index: 9999;
-        }
-        .scroll-top.show { opacity: 1; visibility: visible; }
-        .scroll-top:hover { background: var(--primary); color: #000; transform: translateY(-5px); }
+/* Gallery video thumbnails */
+.sample-videos .sample-video-card {
+  position: relative;
+  overflow: hidden;
+}
+.sample-videos .sample-video-card video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #111827;
+  border-radius: 14px;
+}
+.sample-videos .sample-video-card .media-status {
+  display: block;
+  margin-top: 8px;
+  font-size: .82rem;
+  opacity: .75;
+}
 
-        footer { text-align: center; padding: 60px 20px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 80px; }
-        .footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 10px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
-        .footer-links a:hover { color: var(--primary); }
 
-        @media (max-width: 600px) {
-            .logo { font-size: 2.5rem; letter-spacing: -2px; }
-            .product-grid { grid-template-columns: 1fr; padding: 0 10px; gap: 20px; }
-            .image-box { height: 200px; }
-            .info-box { padding: 15px; }
-            .info-box h2 { font-size: 1.1rem; }
-            .info-box p { font-size: 0.8rem; margin-bottom: 15px; }
-            .mini-card { width: 180px; padding: 10px; }
-            .mini-img-box { height: 100px; }
-            .mini-card h4 { font-size: 0.8rem !important; }
-            .store-btns { grid-template-columns: 1fr 1fr; }
-            .a-btn { grid-column: span 2; }
-            .filter-tabs { justify-content: flex-start; padding: 0 10px; }
-            header { padding: 40px 10px; }
-        }
-    </style>
+/* ===== Portfolio Upgrade Pack ===== */
+.hero-banner{position:relative;overflow:hidden;margin:28px 0 42px;padding:54px 34px;border-radius:28px;background:linear-gradient(135deg,#111827,#374151);color:#fff;box-shadow:0 18px 45px rgba(17,24,39,.18)}
+.hero-content{position:relative;z-index:1;max-width:780px}.hero-kicker{display:inline-block;margin-bottom:12px;font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.hero-banner h1{margin:0 0 12px;font-size:clamp(2rem,5vw,4rem);line-height:1.05}.hero-banner p{margin:0;max-width:680px;color:rgba(255,255,255,.82);font-size:1.05rem;line-height:1.7}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.hero-btn{display:inline-flex;padding:11px 17px;border-radius:999px;text-decoration:none;font-weight:800;background:#fff;color:#111827}.hero-btn.alt{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.author-card{display:flex;align-items:center;gap:22px;margin:0 0 34px;padding:22px;border:1px solid rgba(17,24,39,.09);border-radius:22px;background:#fff;box-shadow:0 10px 30px rgba(17,24,39,.07)}
+.author-card img{width:86px;height:86px;flex:0 0 86px;object-fit:cover;border-radius:50%}.author-card h3{margin:0 0 5px}.author-card p{margin:0;line-height:1.6;opacity:.78}.author-meta{margin-top:9px;font-size:.82rem;font-weight:700;opacity:.62}
+.blog-toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:18px 0 22px}.category-btn{border:1px solid rgba(17,24,39,.12);background:#fff;color:inherit;border-radius:999px;padding:8px 13px;cursor:pointer;font-weight:700}.category-btn.active{background:#111827;color:#fff;border-color:#111827}
+.blog-upgrade-grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}.trending-card{position:sticky;top:20px;padding:20px;border-radius:20px;border:1px solid rgba(17,24,39,.09);background:#fff;box-shadow:0 10px 28px rgba(17,24,39,.06)}.trending-card h3{margin-top:0}
+.trending-item{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid rgba(17,24,39,.08)}.trending-item:last-child{border-bottom:0}.trending-rank{font-size:1.25rem;font-weight:900;opacity:.3;min-width:24px}.trending-item strong{display:block;line-height:1.35}.trending-item small{display:block;margin-top:4px;opacity:.6}
+.visitor-counter{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:34px 0 20px;padding:18px 20px;border-radius:18px;background:#111827;color:#fff}.visitor-counter strong{font-size:1.45rem}.visitor-counter small{opacity:.7}
+.gallery-lightbox-note{margin:10px 0 18px;font-size:.86rem;opacity:.65}
+@media(max-width:820px){.blog-upgrade-grid{grid-template-columns:1fr}.trending-card{position:static}.hero-banner{padding:38px 24px}}
+@media(max-width:520px){.author-card{flex-direction:column;text-align:center;align-items:center}.visitor-counter{align-items:flex-start;flex-direction:column}}
+
+</style>
 </head>
 <body>
 
-<header>
-    <h1 class="logo" onclick="location.reload()">Se<span>7</span>en</h1>
-    <p class="tagline">The Curated Lifestyle Standard</p>
+<!-- Word of the Day -->
+<div class="word-overlay" id="wordOverlay">
+  <div class="word-popup">
+    <button class="close-btn" onclick="closeWordPopup()">&times;</button>
+    <div class="word-header">Word of the Day</div>
+    <div class="word-main" id="wordMain"></div>
+    <div class="word-translation" id="wordTranslation"></div>
+    <div class="word-definition" id="wordDefinition"></div>
+    <div class="word-example" id="wordExample"></div>
+  </div>
+</div>
+
+<!-- Nav -->
+<div id="hamburgerMenu">
+  <button id="hamburgerIcon" type="button" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <ul id="menuLinks">
+    <li><a href="#about" title="About"><i class="fas fa-user"></i></a>
+<a href="#blog" aria-label="Blog">📝</a></li>
+    <li><a href="#skills" title="Skills"><i class="fas fa-code"></i></a></li>
+    <li><a href="#music" title="Music"><i class="fas fa-music"></i></a></li>
+    <li><a href="#gallery" title="Gallery"><i class="fas fa-image"></i></a></li>
+    <li><a href="#unsplash" title="Live Photos"><i class="fas fa-camera"></i></a></li>
+    <li><a href="#quotes" title="Quotes"><i class="fas fa-quote-left"></i></a></li>
+  </ul>
+</div>
+
+<div class="weather-floating" id="weatherWidget">
+  <img id="weatherIcon" src="">
+  <span id="weatherTemp">--&deg;C</span>
+  <span id="weatherCity">City</span>
+</div>
+
+<header class="top">
+  <div class="avatar-block">
+    <div class="hero-kicker">Personal portfolio · 2026</div>
+    <img
+      src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg"
+      alt="Gene Cartalla Guardiana"
+      class="profile-img"
+      loading="eager"
+      decoding="async"
+    >
+    <div>
+      <h1>Gene Cartalla Guardiana</h1>
+      <div class="alias-line">Also known as <strong>Aloygene</strong> &middot; self-taught web developer</div>
+    </div>
+    <div class="status-row">
+      <span><i class="far fa-clock"></i> <span id="headerTime">--:--</span></span>
+      <span><i class="fas fa-location-dot"></i> Cebu, Philippines</span>
+    </div>
+    <div class="hero-actions">
+      <a class="primary" href="#music"><i class="fas fa-headphones"></i> Listen</a>
+      <a href="#about"><i class="fas fa-user"></i> About me</a>
+      <a href="#gallery"><i class="fas fa-images"></i> Gallery</a>
+    </div>
+  </div>
 </header>
 
-<div class="container">
-    <div class="controls-wrapper">
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="searchInput" placeholder="Search for gadgets, tools, or style..." onkeyup="handleSearch()">
-        </div>
+<div class="wrap">
 
-        <div class="filter-tabs" id="categoryTabs">
-            <button class="filter-btn active" onclick="filterData('ALL')">ALL</button>
-            <button class="filter-btn" onclick="filterData('TECH')">TECH</button>
-            <button class="filter-btn" onclick="filterData('STYLE')">STYLE</button>
-            <button class="filter-btn" onclick="filterData('HOME')">HOME</button>
-        </div>
+  
+<section class="hero-banner" id="home-hero">
+  <div class="hero-content">
+    <span class="hero-kicker">Welcome to Aloygene</span>
+    <h1>Learn. Build. Create. Repeat.</h1>
+    <p>A personal space for my journey, projects, ideas, technology, self-improvement, music, and the things I’m currently exploring.</p>
+    <div class="hero-actions">
+      <a class="hero-btn" href="#blog">Explore the Blog</a>
+      <a class="hero-btn alt" href="#gallery">View Gallery</a>
     </div>
-
-    <span class="section-label">Quick Recommendations</span>
-    <div id="random-container-parent">
-        <div class="random-wrapper" id="random-container"></div>
-    </div>
-
-    <div id="demoNotice" class="demo-notice" style="display:none;"><i class="fa-solid fa-circle-info"></i>Showing sample data — live sheet is unavailable right now.</div>
-
-    <span class="section-label">Curated Collection</span>
-    <div id="main-products" class="product-grid"></div>
-
-    <div id="load-more-container" class="load-more-container">
-        <button class="load-more-btn" onclick="loadMore()">LOAD MORE ITEMS</button>
-    </div>
-</div>
-
-<a href="https://m.me/gene.guardiana" target="_blank" class="floating-msg">
-    <i class="fa-brands fa-facebook-messenger"></i>
-</a>
-
-<section class="newsletter-section">
-    <div class="container">
-        <div class="newsletter-card">
-            <h3>Join the Se7en Inner Circle</h3>
-            <p>Get first dibs on the rarest tech finds and lifestyle gear. No spam, just curated excellence.</p>
-            <form id="newsletterForm" onsubmit="handleSignup(event)">
-                <input type="email" id="subscriberEmail" placeholder="Enter your email address" required>
-                <button type="submit">SUBSCRIBE</button>
-            </form>
-            <p id="signupMsg" style="margin-top:15px; font-size:0.7rem; color:var(--primary); display:none;">Awesome! Check your inbox soon, Aloy style.</p>
-        </div>
-    </div>
+  </div>
 </section>
 
-<div class="scroll-top" id="scrollTopBtn" onclick="scrollToTop()">
-    <i class="fa-solid fa-arrow-up"></i>
+
+<section class="author-card" aria-label="About the author">
+  <img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="Gene Cartalla Guardiana" loading="lazy" decoding="async">
+  <div><h3>Hi, I'm Gene 👋</h3><p>Welcome to my corner of the web. I’m documenting what I learn, build, discover, and enjoy along the way.</p><div class="author-meta">Aloygene • Personal Portfolio &amp; Blog</div></div>
+</section>
+
+<section id="about">
+    <div class="section-label">About</div>
+    <h2>What I do</h2>
+    <p>I'm a self-taught web developer who enjoys building responsive, modern, and user-friendly sites. I work mostly in HTML, CSS, and JavaScript on the frontend, with some backend experience using Python and Flask. I like shipping real, working projects and learning by building rather than just reading about it.</p>
+  </section>
+
+  <section id="skills">
+    <div class="section-label">Skills</div>
+    <h2>What I work with</h2>
+    <div class="skills-list">
+      <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive Design</span>
+      <span>Python</span><span>Flask</span><span>UI Design</span>
+    </div>
+  </section>
+
+  
+<!-- ================= BLOG ================= -->
+<section id="blog" class="section">
+<div class="blog-upgrade-grid"><div class="blog-main-column">
+  <div class="blog-intro">
+    <div class="blog-hero">
+      <div class="blog-kicker">Aloygene Journal · Personal Blog</div>
+      <h2>Notes, stories & things I'm learning.</h2>
+      <p>
+        Welcome to my little corner of the internet. Here I share my journey as a
+        self-taught developer, things I'm learning, creative experiments, music,
+        anime, technology, and random thoughts worth keeping.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="#blog-posts">Read my posts</a>
+        <a class="btn secondary" href="#about">More about me</a>
+      </div>
+    </div>
+    <aside class="blog-note">
+      <h3>📌 What you'll find here</h3>
+      <ul>
+        <li>💻 Web development & coding notes</li>
+        <li>📚 Learning progress & lessons</li>
+        <li>🎵 Music, anime & things I enjoy</li>
+        <li>🧠 Personal thoughts & experiences</li>
+        <li>🚀 Projects, experiments & goals</li>
+      </ul>
+    </aside>
+  </div>
+
+  <div id="blog-posts">
+    <div class="blog-toolbar">
+      <div>
+        <h2 style="margin:0">Latest Posts</h2>
+        <small>My notes from the journey.</small>
+      </div>
+      <input id="blogSearch" class="blog-search" type="search"
+             placeholder="🔎 Search posts..." aria-label="Search blog posts">
+    </div>
+
+    <div class="blog-grid" id="blogGrid">
+      
+<div class="blog-toolbar" id="blogCategories" aria-label="Blog categories">
+<button type="button" class="category-btn active" data-category="all">All</button>
+<button type="button" class="category-btn" data-category="tech">💻 Tech</button>
+<button type="button" class="category-btn" data-category="self">🌱 Self-Improvement</button>
+<button type="button" class="category-btn" data-category="life">✨ Lifestyle</button>
+<button type="button" class="category-btn" data-category="music">🎵 Music</button>
 </div>
+
+<article class="blog-card" data-title="Starting my web development journey" data-tags="coding journey web development" data-category="tech">
+        <div class="blog-thumb" role="img" aria-label="Web development workspace"><img
+  src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg"
+  alt="Web development workspace"
+  loading="lazy"
+  decoding="async"
+><span class="blog-thumb-icon" aria-hidden="true">💻</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">October 3, 2026 · Coding</div>
+          <h3>Starting My Web Development Journey</h3>
+          <p>Learning to build websites one line of code at a time. Here are some things I've discovered while teaching myself.</p>
+          <div class="blog-tags"><span class="blog-tag">Coding</span><span class="blog-tag">Journey</span></div>
+          <a href="#" class="blog-read" data-post="journey">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="What I learned from building my portfolio" data-tags="portfolio html css javascript" data-category="self">
+        <div class="blog-thumb" role="img" aria-label="Portfolio and code project"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">🧩</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">October 3, 2026 · Projects</div>
+          <h3>What I Learned From Building My Portfolio</h3>
+          <p>A portfolio is more than a page with your name on it. It is a place to document progress, experiments and ideas.</p>
+          <div class="blog-tags"><span class="blog-tag">Portfolio</span><span class="blog-tag">HTML</span><span class="blog-tag">CSS</span></div>
+          <a href="#" class="blog-read" data-post="portfolio">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="Why I keep learning" data-tags="learning motivation goals" data-category="life">
+        <div class="blog-thumb" role="img" aria-label="Learning and study"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">📚</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">October 2, 2026 · Learning</div>
+          <h3>Why I Keep Learning</h3>
+          <p>There is always another skill, another idea and another project to explore. Progress does not have to be perfect.</p>
+          <div class="blog-tags"><span class="blog-tag">Learning</span><span class="blog-tag">Goals</span></div>
+          <a href="#" class="blog-read" data-post="learning">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="Music that keeps me focused" data-tags="music playlist focus" data-category="tech">
+        <div class="blog-thumb" role="img" aria-label="Music and headphones"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">🎧</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">October 1, 2026 · Lifestyle</div>
+          <h3>Music That Keeps Me Focused</h3>
+          <p>Sometimes the right playlist makes coding sessions feel completely different. These are the sounds I keep coming back to.</p>
+          <div class="blog-tags"><span class="blog-tag">Music</span><span class="blog-tag">Focus</span></div>
+          <a href="#" class="blog-read" data-post="music">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="Small projects, big lessons" data-tags="projects javascript practice" data-category="music">
+        <div class="blog-thumb" role="img" aria-label="Personal coding project"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">🚀</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">September 29, 2026 · Projects</div>
+          <h3>Small Projects, Big Lessons</h3>
+          <p>Small experiments are a great way to practice. Every broken button and weird bug has something to teach.</p>
+          <div class="blog-tags"><span class="blog-tag">Projects</span><span class="blog-tag">JavaScript</span></div>
+          <a href="#" class="blog-read" data-post="projects">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="Things I want to build next" data-tags="goals future ideas" data-category="self">
+        <div class="blog-thumb" role="img" aria-label="Future goals and ideas"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">🌱</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">September 27, 2026 · Goals</div>
+          <h3>Things I Want To Build Next</h3>
+          <p>A running list of ideas, experiments and bigger projects I want to turn from “someday” into something real.</p>
+          <div class="blog-tags"><span class="blog-tag">Goals</span><span class="blog-tag">Ideas</span></div>
+          <a href="#" class="blog-read" data-post="future">Read article →</a>
+        </div>
+      </article>
+    </div>
+    <div id="blogEmpty" class="blog-empty">No posts found. Try another search.</div>
+
+    <article class="blog-post" data-full-post="journey">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">October 3, 2026 · Coding</div>
+      <h2>Starting My Web Development Journey</h2>
+      <div class="post-content">
+        <p>I'm building my skills by actually building things. Instead of waiting until I know everything, I learn something, try it, break it, fix it, and keep moving.</p>
+        <p>That process is what makes a personal website special. It becomes a living record of the things I have learned and the ideas I have tried.</p>
+        <p>This blog will be where I document that journey — the wins, the bugs, the experiments and everything in between.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="portfolio">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">October 3, 2026 · Projects</div>
+      <h2>What I Learned From Building My Portfolio</h2>
+      <div class="post-content">
+        <p>Building a portfolio taught me that design and functionality have to work together. A website can look good, but it should also feel easy to use.</p>
+        <p>I also learned the importance of responsive layouts, accessible controls, clean navigation and keeping the code organized enough to improve later.</p>
+        <p>The portfolio is never really “finished.” It grows together with the person behind it.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="learning">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">October 2, 2026 · Learning</div>
+      <h2>Why I Keep Learning</h2>
+      <div class="post-content">
+        <p>There are days when learning feels fast and days when even a small problem takes hours. Both are part of the process.</p>
+        <p>I try to focus on progress instead of comparing my starting point with someone else's finished work.</p>
+        <p>Every new concept becomes another tool I can use in the next project.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="music">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">October 1, 2026 · Lifestyle</div>
+      <h2>Music That Keeps Me Focused</h2>
+      <div class="post-content">
+        <p>Music is part of my workflow. Sometimes I need something calm, sometimes something energetic, and sometimes I just want a familiar song playing in the background.</p>
+        <p>That's why I kept the music player as part of this website. It is not just a feature — it is part of the atmosphere of the site.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="projects">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">September 29, 2026 · Projects</div>
+      <h2>Small Projects, Big Lessons</h2>
+      <div class="post-content">
+        <p>Small projects make it easier to experiment. A tiny feature can teach a surprisingly useful lesson about JavaScript, CSS, layout or user experience.</p>
+        <p>I want to keep making small things because every experiment adds another piece to the bigger picture.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="future">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">September 27, 2026 · Goals</div>
+      <h2>Things I Want To Build Next</h2>
+      <div class="post-content">
+        <p>This is my running list of ideas. Some will become real projects, some will change, and some will probably become completely different things.</p>
+        <p>The important part is to keep experimenting and keep building.</p>
+      </div>
+    </article>
+  </div>
+</div>
+<aside class="trending-card" id="trendingPosts">
+<h3>🔥 Trending</h3>
+<div class="trending-item"><span class="trending-rank">01</span><div><strong>Building Better Habits</strong><small>Self-Improvement</small></div></div>
+<div class="trending-item"><span class="trending-rank">02</span><div><strong>What I’m Learning in Tech</strong><small>Technology</small></div></div>
+<div class="trending-item"><span class="trending-rank">03</span><div><strong>My Current Setup</strong><small>Lifestyle</small></div></div>
+</aside>
+</div>
+</section>
+
+<section id="music" class="music-section">
+    <div class="section-label">Playlist</div>
+    <h2>What's on repeat</h2>
+    <div class="music-toolbar">
+      <span class="music-count" id="musicCount">36 tracks · click a song to play</span>
+      <span class="section-hint">Space = play/pause · ←/→ = seek</span>
+    </div>
+    <div class="tracklist" id="tracksGrid"></div>
+    <button id="loadMoreBtn">Show more tracks</button>
+
+    <div class="player">
+      <div class="player-bg" id="playerBg"></div>
+      <div class="player-content">
+        <div class="player-cover"><img id="playerCover" src="" alt="cover"></div>
+        <div>
+          <div class="now-title" id="nowTitle">Not playing</div>
+          <div class="now-artist" id="nowArtist"></div>
+          <div class="player-status" id="playerStatus"><span class="dot"></span><span>Ready</span></div>
+          <div class="equalizer" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="progress-wrap">
+          <span class="time" id="playerCurrentTime">0:00</span>
+          <input type="range" id="progress" class="progress" min="0" max="100" value="0">
+          <span class="time" id="duration">0:00</span>
+        </div>
+        <div class="controls">
+          <button class="big-btn" id="shuffleBtn" title="Shuffle"><i class="fas fa-shuffle"></i></button>
+          <button class="big-btn" id="prevBtn" title="Previous"><i class="fas fa-backward-step"></i></button>
+          <button class="big-btn" id="playBtn" title="Play"><i class="fas fa-play"></i></button>
+          <button class="big-btn" id="nextBtn" title="Next"><i class="fas fa-forward-step"></i></button>
+          <button class="big-btn" id="repeatBtn" title="Repeat"><i class="fas fa-repeat"></i></button>
+        </div>
+        <div class="volume-row">
+          <i class="fas fa-volume-low" aria-hidden="true"></i>
+          <input type="range" id="volume" class="vol" min="0" max="1" step="0.01" value="0.9" aria-label="Volume">
+          <i class="fas fa-volume-high" aria-hidden="true"></i>
+        </div>
+        <div class="keyboard-hint">N = next · P = previous · M = mute · R = repeat · S = shuffle</div>
+        <audio id="audio" preload="metadata"></audio>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="section-label">Gallery</div>
+    <h2>Photos &amp; clips</h2>
+    <input type="file" id="fileInput" multiple accept="image/*,video/*">
+    <div id="galleryDrop"><p>Select or drag &amp; drop photos/videos to preview them here</p></div>
+    <div class="sample-videos" id="sampleVideos">
+      <div class="sample-video-card">
+        <video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" poster="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221280%22%20height%3D%22720%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23111827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23374151%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%2254%22%20y%3D%2254%22%20width%3D%221172%22%20height%3D%22612%22%20rx%3D%2234%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%223%22%2F%3E%0A%3Ccircle%20cx%3D%22640%22%20cy%3D%22290%22%20r%3D%2272%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpolygon%20points%3D%22620%2C248%20620%2C332%20690%2C290%22%20fill%3D%22%23111827%22%2F%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22445%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2250%22%20font-weight%3D%22700%22%3EEVERY%20DANGEROUS%3Cbr%2F%3EHACKING%20GADGETS%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22510%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1d5db%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2230%22%3E8%20MINUTES%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22610%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2222%22%20letter-spacing%3D%223%22%3ECLICK%20PLAY%20TO%20WATCH%3C%2Ftext%3E%0A%3C%2Fsvg%3E" preload="none" controls playsinline></video>
+        <span class="media-status">Click play to load</span>
+      </div>
+      <div class="sample-video-card">
+        <video src="media/Every Networking Technology Explained In 12 Minutes.mp4" poster="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221280%22%20height%3D%22720%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23111827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23374151%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%2254%22%20y%3D%2254%22%20width%3D%221172%22%20height%3D%22612%22%20rx%3D%2234%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%223%22%2F%3E%0A%3Ccircle%20cx%3D%22640%22%20cy%3D%22290%22%20r%3D%2272%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpolygon%20points%3D%22620%2C248%20620%2C332%20690%2C290%22%20fill%3D%22%23111827%22%2F%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22445%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2250%22%20font-weight%3D%22700%22%3EEVERY%20NETWORKING%3Cbr%2F%3ETECHNOLOGY%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22510%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1d5db%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2230%22%3E12%20MINUTES%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22610%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2222%22%20letter-spacing%3D%223%22%3ECLICK%20PLAY%20TO%20WATCH%3C%2Ftext%3E%0A%3C%2Fsvg%3E" preload="none" controls playsinline></video>
+        <span class="media-status">Click play to load</span>
+      </div>
+      <div class="sample-video-card">
+        <video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" poster="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221280%22%20height%3D%22720%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23111827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23374151%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%2254%22%20y%3D%2254%22%20width%3D%221172%22%20height%3D%22612%22%20rx%3D%2234%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%223%22%2F%3E%0A%3Ccircle%20cx%3D%22640%22%20cy%3D%22290%22%20r%3D%2272%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpolygon%20points%3D%22620%2C248%20620%2C332%20690%2C290%22%20fill%3D%22%23111827%22%2F%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22445%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2250%22%20font-weight%3D%22700%22%3EEVERY%20INTERNET%3Cbr%2F%3ETRACKING%20METHOD%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22510%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1d5db%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2230%22%3E12%20MINUTES%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22610%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2222%22%20letter-spacing%3D%223%22%3ECLICK%20PLAY%20TO%20WATCH%3C%2Ftext%3E%0A%3C%2Fsvg%3E" preload="none" controls playsinline></video>
+        <span class="media-status">Click play to load</span>
+      </div>
+      <div class="sample-video-card">
+        <video src="media/Building My First Gaming PC with No Experience... (High-End).mp4" poster="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221280%22%20height%3D%22720%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23111827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23374151%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%2254%22%20y%3D%2254%22%20width%3D%221172%22%20height%3D%22612%22%20rx%3D%2234%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%223%22%2F%3E%0A%3Ccircle%20cx%3D%22640%22%20cy%3D%22290%22%20r%3D%2272%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpolygon%20points%3D%22620%2C248%20620%2C332%20690%2C290%22%20fill%3D%22%23111827%22%2F%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22445%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2250%22%20font-weight%3D%22700%22%3EBUILDING%20MY%20FIRST%3Cbr%2F%3EGAMING%20PC%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22510%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1d5db%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2230%22%3ENO%20EXPERIENCE%20%E2%80%A2%20HIGH-END%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22610%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2222%22%20letter-spacing%3D%223%22%3ECLICK%20PLAY%20TO%20WATCH%3C%2Ftext%3E%0A%3C%2Fsvg%3E" preload="none" controls playsinline></video>
+        <span class="media-status">Click play to load</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="unsplash">
+    <div class="section-label">Live photos</div>
+    <h2>Search Unsplash</h2>
+    <div class="unsplash-search">
+      <input id="unsplashSearch" placeholder="Search photos...">
+      <button id="searchUnsplashBtn">Search</button>
+    </div>
+    <div id="unsplashGallery"></div>
+  </section>
+
+  <section id="quotes">
+    <div class="section-label">Notes to self</div>
+    <h2>Quotes</h2>
+    <div class="quotes-box" id="quotesBox">Loading&hellip;</div>
+  </section>
+
+</div>
+
+<div id="lightbox">
+  <span class="close">&times;</span>
+  <span class="arrow left">&#10094;</span>
+  <img src="" alt="lightbox">
+  <span class="arrow right">&#10095;</span>
+</div>
+
+<div class="mini-player" id="miniPlayer" aria-label="Mini music player">
+  <img id="miniCover" src="" alt="">
+  <div class="mini-info">
+    <div class="mini-title" id="miniTitle">Not playing</div>
+    <div class="mini-artist" id="miniArtist"></div>
+  </div>
+  <button type="button" id="miniPrev" title="Previous" aria-label="Previous track"><i class="fas fa-backward-step"></i></button>
+  <button type="button" id="miniPlay" title="Play/Pause" aria-label="Play or pause"><i class="fas fa-play"></i></button>
+  <button type="button" id="miniNext" title="Next" aria-label="Next track"><i class="fas fa-forward-step"></i></button>
+</div>
+
+
+<section class="visitor-counter" aria-label="Visitor counter">
+<div><strong id="visitorCount">0000</strong><div>visits to this site</div></div>
+<small>Local counter • saved in this browser</small>
+</section>
 
 <footer>
-    <div class="footer-links">
-        <a onclick="openModal('about')">About Us</a>
-        <a onclick="openModal('privacy')">Privacy Policy</a>
-        <a onclick="openModal('terms')">Terms of Service</a>
-        <a onclick="openModal('contact')">Contact</a>
-    </div>
-    <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 20px;">&copy; 2026 Se7en Brand Hub. Created by Gene Guardiana.</p>
+  <p>&copy; 2026 Aloygene</p>
+  <div class="footer-icons">
+    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    <a href="ytclone/index.html" target="_blank" rel="noopener noreferrer" aria-label="YouTube project"><i class="fab fa-youtube"></i></a>
+    <a href="mailto:guardianagene6@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+    <a href="weather/index.html" target="_blank" rel="noopener noreferrer" aria-label="Weather app"><i class="fas fa-cloud-sun"></i></a>
+    <a href="https://seven33.site" target="_blank" rel="noopener noreferrer" aria-label="Main portfolio"><i class="fas fa-globe"></i></a>
+  </div>
 </footer>
 
-<div id="seoModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div id="modal-body" style="color: #fff;"></div>
-    </div>
-</div>
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">Done</span></div>
+
+<a class="bmc-float" href="https://www.maya.ph/app/registration?invite=@gseven33" target="_blank" rel="noopener noreferrer">
+  <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" alt="">Buy me a coffee
+</a>
 
 <script>
-    const SHEET_ID = '1QPfErsbWt-5L6seIvNJ2FOWr9CqnLUXzkV1zDlSCU2Y';
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-    const FALLBACK_IMG = 'https://placehold.co/400x300/161b22/ff9acb?text=No+Image';
+/* ================= LIVE TIME ================= */
+function updateTime(){
+  document.getElementById("headerTime").textContent =
+    new Date().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
+}
+setInterval(updateTime,1000);
+updateTime();
 
-    // Shown only if the live Google Sheet can't be reached (keeps the portfolio demo looking complete).
-    const DEMO_ITEMS = [
-        { name: 'Minimalist Mechanical Keyboard', cat: 'TECH', desc: 'Compact 65% layout, hot-swappable sockets, linear red switches.', img: 'https://placehold.co/400x300/161b22/ff9acb?text=Keyboard', shopee: '#', lazada: '#', amazon: '#', stars: '★★★★★', review: 'The typing experience is top-notch.' },
-        { name: 'Ergonomic Mesh Chair', cat: 'HOME', desc: 'High-back rolling chair with 2D arms and lumbar support.', img: 'https://placehold.co/400x300/161b22/ff9acb?text=Chair', shopee: '#', lazada: '#', amazon: '#', stars: '★★★★☆', review: 'Very comfortable, a bit tricky to assemble.' },
-        { name: 'Tech Organizer Pouch', cat: 'STYLE', desc: 'Waterproof, double-layer cable and accessory carry case.', img: 'https://placehold.co/400x300/161b22/ff9acb?text=Pouch', shopee: '#', lazada: '#', amazon: '#', stars: '★★★★★', review: 'Everything stays organized.' }
-    ];
+/* ================= TOAST ================= */
+function showToast(message){
+  const toast = document.getElementById("toast");
+  document.getElementById("toastMessage").textContent = message;
+  toast.classList.add("show");
+  setTimeout(()=> toast.classList.remove("show"), 2500);
+}
 
-    let allItems = []; 
-    let visibleCount = 10; 
-    let currentFilter = 'ALL';
+/* ================= HAMBURGER NAV ================= */
+const hamburgerMenu = document.getElementById("hamburgerMenu");
+const hamburgerIcon = document.getElementById("hamburgerIcon");
+const menuLinks = [...document.querySelectorAll("#menuLinks a")];
 
-    const modalData = {
-        about: `<h2>About Se7en</h2><p>Se7en is a curated digital hub dedicated to finding the perfect balance between aesthetics and function. Founded by <b>Gene Guardiana</b>, we filter through thousands of products to bring you only the best in tech, home, and lifestyle essentials.</p>`,
-        privacy: `<h2>Privacy Policy</h2><p>Your privacy matters. We use affiliate links from Shopee, Lazada, and Amazon.</p>`,
-        terms: `<h2>Terms of Service</h2><p>By using Se7en, you agree that we are a recommendation platform and not the direct seller.</p>`,
-        contact: `<h2>Contact Us</h2><p><b>Email:</b> guardianagene6@gmail.com</p>`
-    };
+function setMenu(open){
+  hamburgerMenu.classList.toggle("open", open);
+  hamburgerIcon.setAttribute("aria-expanded", String(open));
+  hamburgerIcon.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+}
+menuLinks.forEach(a=>{
+  a.onclick = e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute("href"))?.scrollIntoView({behavior:"smooth",block:"start"});
+    setMenu(false);
+  };
+});
+hamburgerIcon.onclick = () => setMenu(!hamburgerMenu.classList.contains("open"));
 
-    async function loadData() {
-        showSkeleton();
-        try {
-            const res = await fetch(SHEET_URL);
-            const text = await res.text();
-            const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
-            const rawData = JSON.parse(jsonStr[1]);
-            const rows = rawData.table.rows.slice(1);
+document.addEventListener("click", e => {
+  if(!hamburgerMenu.contains(e.target)) setMenu(false);
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    setMenu(false);
+    if(lightbox.style.visibility === "visible") closeLightbox();
+    if(wordOverlay.classList.contains("active")) closeWordPopup();
+  }
+});
 
-            allItems = rows.map(r => {
-                const getVal = (idx) => (r.c && r.c[idx] && r.c[idx].v !== null) ? r.c[idx].v : '';
-                return {
-                    name: String(getVal(0)),
-                    cat: String(getVal(1)).toUpperCase(),
-                    desc: String(getVal(2)),
-                    img: String(getVal(3)),
-                    shopee: getVal(4) || '#',
-                    lazada: getVal(5) || '#',
-                    amazon: getVal(6) || '#',
-                    stars: getVal(7) || '★★★★★',
-                    review: getVal(8) || 'Must-have!'
-                };
-            }).filter(p => p.name);
+const sectionObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting) return;
+    menuLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id));
+  });
+},{rootMargin:"-30% 0px -55% 0px",threshold:0});
+document.querySelectorAll("section[id]").forEach(section=>sectionObserver.observe(section));
 
-            // Warn in console if shopee and lazada links are identical (data entry mistake in the sheet)
-            allItems.forEach(p => {
-                if (p.shopee !== '#' && p.shopee === p.lazada) {
-                    console.warn(`Check your sheet: "${p.name}" has the same link for Shopee and Lazada.`);
-                }
-            });
+/* ================= LOCAL GALLERY ================= */
+const fileInput = document.getElementById("fileInput");
+const galleryDrop = document.getElementById("galleryDrop");
 
-            renderRandoms(allItems);
-            render(allItems.slice(0, visibleCount)); 
-            updateLoadMoreButton(); 
+function addGalleryFiles(files){
+  const validFiles = [...files].filter(file => file.type.startsWith("image/") || file.type.startsWith("video/"));
+  if(!validFiles.length) return;
 
-        } catch (e) {
-            console.error("Error loading data:", e);
-            // Fall back to demo data so the page never looks broken or empty.
-            allItems = DEMO_ITEMS;
-            const notice = document.getElementById('demoNotice');
-            if (notice) notice.style.display = 'block';
-            renderRandoms(allItems);
-            render(allItems.slice(0, visibleCount));
-            updateLoadMoreButton();
-        }
+  galleryDrop.querySelector("p")?.remove();
+
+  validFiles.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const wrap = document.createElement("div");
+    wrap.className = "media-wrap";
+
+    if(file.type.startsWith("image/")){
+      const img = document.createElement("img");
+      img.src = url;
+      img.loading = "lazy";
+      img.className = "media-item";
+      img.alt = file.name;
+      wrap.appendChild(img);
+      const badge = document.createElement("span");
+      badge.className = "media-badge";
+      badge.textContent = "PHOTO";
+      wrap.appendChild(badge);
+    }else{
+      const video = document.createElement("video");
+      video.src = url;
+      video.controls = true;
+      video.preload = "none";
+      video.className = "media-item";
+      wrap.appendChild(video);
+      const badge = document.createElement("span");
+      badge.className = "media-badge";
+      badge.textContent = "VIDEO";
+      wrap.appendChild(badge);
     }
+    galleryDrop.appendChild(wrap);
+  });
 
-    function showSkeleton() {
-        const grid = document.getElementById('main-products');
-        if (!grid) return;
-        grid.innerHTML = Array(6).fill(0).map(() => `
-            <div class="skeleton-card">
-                <div class="skeleton-img skeleton-shimmer"></div>
-                <div class="skeleton-line skeleton-shimmer"></div>
-                <div class="skeleton-line short skeleton-shimmer"></div>
-                <div class="skeleton-line skeleton-shimmer" style="margin-top:30px;"></div>
-            </div>`).join('');
-    }
+  showToast(`${validFiles.length} file(s) added`);
+}
 
-    function render(data) {
-        const grid = document.getElementById('main-products');
-        if (!grid) return;
+fileInput.addEventListener("change", () => {
+  addGalleryFiles(fileInput.files);
+  fileInput.value = "";
+});
 
-        if (data.length === 0) {
-            grid.innerHTML = `<div class="empty-state">No products found. Try a different search or category.</div>`;
-            return;
-        }
+["dragenter","dragover"].forEach(type=>{
+  galleryDrop.addEventListener(type, e=>{
+    e.preventDefault();
+    galleryDrop.classList.add("drag-over");
+  });
+});
+["dragleave","drop"].forEach(type=>{
+  galleryDrop.addEventListener(type, e=>{
+    e.preventDefault();
+    galleryDrop.classList.remove("drag-over");
+  });
+});
+galleryDrop.addEventListener("drop", e => addGalleryFiles(e.dataTransfer.files));
 
-        grid.innerHTML = data.map((p, index) => {
-            const targetLink = p.amazon !== '#' ? p.amazon : (p.shopee !== '#' ? p.shopee : p.lazada);
-            const hotBadge = (index % 4 === 0) ? `<span class="badge-hot"><i class="fa-solid fa-fire"></i> HOT DEAL</span>` : '';
-            const imgSrc = p.img && p.img.startsWith('http') ? p.img : FALLBACK_IMG;
+/* ================= LIGHTBOX ================= */
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = lightbox.querySelector("img");
+let lightboxItems = [];
+let currentIndex = 0;
 
-            return `
-            <article class="product-card">
-                <a href="${targetLink}" target="_blank" style="text-decoration: none;">
-                    <div class="image-box">
-                        <span class="badge">${p.cat}</span>
-                        ${hotBadge}
-                        <img src="${imgSrc}" class="product-img" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
-                    </div>
-                </a>
-                <div class="info-box">
-                    <a href="${targetLink}" target="_blank" style="text-decoration: none;">
-                        <h2>${p.name}</h2>
-                    </a>
-                    <p>${p.desc}</p>
-                    <div class="review-box">
-                        <span class="stars">${p.stars}</span>
-                        "${p.review}"
-                    </div>
-                    <div class="store-btns">
-                        ${p.shopee !== '#' ? `<a href="${p.shopee}" target="_blank" class="btn s-btn">SHOPEE</a>` : ''}
-                        ${p.lazada !== '#' ? `<a href="${p.lazada}" target="_blank" class="btn l-btn">LAZADA</a>` : ''}
-                        ${p.amazon !== '#' ? `<a href="${p.amazon}" target="_blank" class="btn a-btn"><i class="fa-brands fa-amazon"></i> AMAZON</a>` : ''}
-                    </div>
-                </div>
-            </article>`;
-        }).join('');
-    }
+function openLightbox(items, index){
+  lightboxItems = items;
+  currentIndex = index;
+  lightboxImg.src = items[index];
+  lightbox.style.visibility = "visible";
+  lightbox.style.opacity = "1";
+}
+galleryDrop.addEventListener("click", e => {
+  if(e.target.tagName === "IMG"){
+    const imgs = [...galleryDrop.querySelectorAll("img")];
+    openLightbox(imgs.map(i=>i.src), imgs.indexOf(e.target));
+  }
+});
+function closeLightbox(){
+  lightbox.style.visibility = "hidden";
+  lightbox.style.opacity = "0";
+  lightboxImg.src = "";
+}
+lightbox.querySelector(".close").onclick = closeLightbox;
+lightbox.addEventListener("click", e => {
+  if(e.target === lightbox) closeLightbox();
+});
+lightbox.querySelector(".arrow.left").onclick = () => {
+  currentIndex = (currentIndex - 1 + lightboxItems.length) % lightboxItems.length;
+  lightboxImg.src = lightboxItems[currentIndex];
+};
+lightbox.querySelector(".arrow.right").onclick = () => {
+  currentIndex = (currentIndex + 1) % lightboxItems.length;
+  lightboxImg.src = lightboxItems[currentIndex];
+};
 
-    function renderRandoms(data) {
-        const container = document.getElementById('random-container');
-        if (!container) return;
-        if (data.length === 0) return;
-        const randomItems = [...data].sort(() => Math.random() - 0.5).slice(0, 3);
-        const loopItems = [...randomItems, ...randomItems];
-        container.innerHTML = loopItems.map(p => {
-            const mainLink = p.lazada !== '#' ? p.lazada : (p.shopee !== '#' ? p.shopee : p.amazon);
-            const imgSrc = p.img && p.img.startsWith('http') ? p.img : FALLBACK_IMG;
-            return `
-                <div class="mini-card">
-                    <a href="${mainLink}" target="_blank" style="text-decoration: none; color: inherit;">
-                        <div class="mini-img-box">
-                            <img src="${imgSrc}" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
-                        </div>
-                        <div style="margin-top: 12px;">
-                            <h4 style="font-size: 0.8rem; color: var(--primary); margin: 0;">${p.name}</h4>
-                            <div style="color: #ffcc00; font-size: 0.7rem;">${p.stars}</div>
-                        </div>
-                    </a>
-                </div>`;
-        }).join('');
-    }
+/* ================= LOCAL SAMPLE VIDEO LOADING ================= */
+(function initSampleVideos(){
+  const cards = [...document.querySelectorAll("#sampleVideos .sample-video-card")];
+  if(!cards.length) return;
 
-    function loadMore() {
-        visibleCount += 10; 
-        const filtered = getFilteredData(); 
-        render(filtered.slice(0, visibleCount));
-        updateLoadMoreButton();
-    }
+  cards.forEach(card => {
+    const video = card.querySelector("video");
+    if(!video) return;
 
-    function updateLoadMoreButton() {
-        const btnContainer = document.getElementById('load-more-container');
-        const filtered = getFilteredData();
-        if (btnContainer) {
-            btnContainer.style.display = (visibleCount < filtered.length) ? 'flex' : 'none';
-        }
-    }
-
-    function getFilteredData() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        return allItems.filter(p => 
-            (p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query)) &&
-            (currentFilter === 'ALL' || p.cat === currentFilter)
-        );
-    }
-
-    function handleSearch() {
-        visibleCount = 10; 
-        render(getFilteredData().slice(0, visibleCount));
-        updateLoadMoreButton();
-    }
-
-    function filterData(cat) {
-        currentFilter = cat;
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.innerText === cat);
-        });
-        handleSearch();
-    }
-
-    function handleSignup(e) {
-        e.preventDefault();
-        document.getElementById('newsletterForm').style.display = 'none';
-        document.getElementById('signupMsg').style.display = 'block';
-    }
-
-    function openModal(p) {
-        document.getElementById('modal-body').innerHTML = modalData[p];
-        document.getElementById('seoModal').style.display = "block";
-    }
-
-    function closeModal() { document.getElementById('seoModal').style.display = "none"; }
-    window.onclick = (event) => { if (event.target == document.getElementById('seoModal')) closeModal(); }
-    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
-    window.addEventListener('scroll', () => {
-        const btn = document.getElementById('scrollTopBtn');
-        if (btn) btn.classList.toggle('show', window.scrollY > 500);
+    video.addEventListener("loadedmetadata", () => {
+      card.classList.add("loaded");
     });
 
-    window.onload = loadData;
+    video.addEventListener("error", () => {
+      card.classList.add("error");
+      const status = card.querySelector(".media-status");
+      if(status) status.textContent = "Unable to load this video";
+    });
+  });
+})();
+
+/* ================= UNSPLASH SEARCH ================= */
+const unsplashKey = "M6s7dxtyudzoG5xvzUM-oBUfrx_SmJu11VQ10txCl7U";
+const unsplashGallery = document.getElementById("unsplashGallery");
+let unsplashImages = [];
+
+async function searchUnsplash(){
+  const q = document.getElementById("unsplashSearch").value.trim();
+  if(!q) return;
+  unsplashGallery.innerHTML = "Loading...";
+  unsplashImages = [];
+  try{
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    const res = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(q)}&per_page=12&client_id=${unsplashKey}`, {
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+
+    if(!res.ok){
+      throw new Error(`Unsplash request failed: ${res.status}`);
+    }
+
+    const data = await res.json();
+    unsplashGallery.innerHTML = "";
+    (data.results||[]).forEach((p,i)=>{
+      unsplashImages.push(p.urls.full);
+      const div = document.createElement("div");
+      div.className = "unsplash-card";
+      div.title = p.alt_description || p.description || "Open photo";
+      div.setAttribute("role","button");
+      div.setAttribute("tabindex","0");
+      div.style.backgroundImage = `url(${p.urls.small})`;
+      div.onclick = () => openLightbox(unsplashImages, i);
+      div.onkeydown = e => { if(e.key === "Enter" || e.key === " ") openLightbox(unsplashImages, i); };
+      unsplashGallery.appendChild(div);
+    });
+    if(!data.results || !data.results.length) unsplashGallery.textContent = "No results found";
+  }catch(e){
+    unsplashGallery.textContent =
+      e.name === "AbortError"
+        ? "Image search timed out. Try again."
+        : "Unable to load Unsplash images right now.";
+  }
+}
+document.getElementById("searchUnsplashBtn").onclick = searchUnsplash;
+document.getElementById("unsplashSearch").onkeypress = e => { if(e.key==="Enter") searchUnsplash(); };
+
+/* ================= QUOTES ================= */
+const quotesBox = document.getElementById("quotesBox");
+const quotes = [
+  "Keep it simple, keep it smart.",
+  "Code is like humor. When you have to explain it, it's bad.",
+  "Strive for progress, not perfection.",
+  "Learning never exhausts the mind.",
+  "Success grows quietly in the moments no one sees.",
+  "Your mindset is the steering wheel; your actions are the engine.",
+  "Peace begins when you stop arguing with what you cannot control.",
+  "Growth feels uncomfortable, but comfort never creates growth.",
+  "Sometimes the hardest battles are the ones fought inside your mind.",
+  "Strength isn't loud; it's the courage to keep going."
+];
+function showQuote(){ quotesBox.textContent = quotes[Math.floor(Math.random()*quotes.length)]; }
+showQuote();
+setInterval(showQuote, 8000);
+
+/* ================= MUSIC PLAYER ================= */
+const tracks = [
+ {title:"Ode To My Family",artist:"Dolores O'Riordan",cover:"media/IMG_20260106_110011.jpg",src:"media/The Cranberries- Ode To My Family (Lyrics).m4a"},
+ {title:"When You're Gone",artist:"Dolores O'Riordan",cover:"media/IMG_20260106_110026.jpg",src:"media/The Cranberries - When You're Gone.m4a"},
+ {title:"Ordinary day",artist:"Dolores O'Riordan",cover:"media/IMG_20260106_110042.jpg",src:"media/Dolores O'Riordan - Ordinary day (Official Audio).m4a"},
+ {title:"All I Wanted",artist:"Paramore",cover:"media/IMG_20260103_131746.jpg",src:"media/Paramore - All I Wanted (Official Audio).m4a"},
+ {title:"Last Hope",artist:"Paramore",cover:"media/IMG_20260103_131801.jpg",src:"media/Paramore - Last Hope (Official Audio).m4a"},
+ {title:"My Heart",artist:"Paramore",cover:"media/IMG_20251229_105941.jpg",src:"media/My Heart (lyrics) - Paramore.m4a"},
+ {title:"Not Gonna Die",artist:"Skillet",cover:"media/IMG_20251224_094323.jpg",src:"media/Skillet - 'Not Gonna Die' (Lyric Video).m4a"},
+ {title:"Awake And Alive",artist:"Skillet",cover:"media/IMG_20260109_155902.jpg",src:"media/Skillet - Awake And Alive (Lyrics).m4a"},
+ {title:"Zoe Jane",artist:"Staind",cover:"media/IMG_20260109_161706.jpg",src:"media/Zoe Jane.m4a"},
+ {title:"Falling",artist:"Staind",cover:"media/IMG_20260109_155835.jpg",src:"media/Staind-Falling LYRICS.m4a"},
+ {title:"Shut Up",artist:"Blink-182",cover:"media/IMG_20260109_155803.jpg",src:"media/Shut Up.m4a"},
+ {title:"I Miss You",artist:"Blink-182",cover:"media/IMG_20251222_193518.jpg",src:"media/blink-182 - I Miss You (Lyrics).m4a"},
+ {title:"Points Of Authority",artist:"Linkin Park",cover:"media/IMG_20260107_113843.jpg",src:"media/Points Of Authority - Linkin Park (Hybrid Theory).m4a"},
+ {title:"Screaming Infidelities",artist:"Dashboard Confessional",cover:"media/Dc.jpeg",src:"media/Dashboard Confessional - Screaming Infidelities (Official Music Video featuring Aaron Paul).m4a"},
+ {title:"Comfortable Liar",artist:"Chevelle",cover:"media/IMG_20260107_113750.jpg",src:"media/Chevelle - Comfortable Liar (Official Audio).m4a"},
+ {title:"The Red",artist:"Chevelle",cover:"media/IMG_20260107_113733.jpg",src:"media/Chevelle - The Red (Lyrics).m4a"},
+ {title:"If I Were You",artist:"Hoobastank",cover:"media/ab67616d0000b2737a394930b8108eb1e1ae904f.jpeg",src:"media/Hoobastank - If I Were You.m4a"},
+ {title:"Away",artist:"Breaking Benjamin",cover:"media/IMG_20251222_214957.jpg",src:"media/Away.m4a"},
+ {title:"Without You Here",artist:"Finch",cover:"media/IMG_20251222_214917.jpg",src:"media/Without You Here.m4a"},
+ {title:"Mistress",artist:"Disturbed",cover:"media/IMG_20260103_131534.jpg",src:"media/Disturbed - Mistress [Official Audio].m4a"},
+ {title:"Red Is The New Black",artist:"Funeral For a Friend",cover:"media/IMG_20260103_142223.jpg",src:"media/Red Is The New Black Lyric Funeral For a Friend.m4a"},
+ {title:"Broken Down",artist:"Sevendust",cover:"media/IMG_20251224_093324.jpg",src:"media/Sevendust - Broken Down (with lyrics).m4a"},
+ {title:"Hang On",artist:"Seether",cover:"media/IMG_20251224_093353.jpg",src:"media/Seether - Hang On (Official Visualizer).m4a"},
+ {title:"Running Away",artist:"Hoobastank",cover:"media/IMG_20251224_093430.jpg",src:"media/Hoobastank - Running Away.m4a"},
+ {title:"Playlist",artist:"Yellowcard",cover:"media/IMG_20251224_224751.jpg",src:"media/Playlist _ Yellowcard(옐로우카드).m4a"},
+ {title:"Ocean Wide",artist:"The Afters",cover:"media/IMG_20251222_222810.jpg",src:"media/Ocean Wide - The Afters - song lyrics.m4a"},
+ {title:"Sleeping Awake",artist:"P.O.D",cover:"media/IMG_20251222_221953.jpg",src:"media/P.O.D. - Sleeping Awake (Official Music Video).m4a"},
+ {title:"Beautiful",artist:"P.O.D",cover:"media/IMG_20251222_222010.jpg",src:"media/P.O.D. - Beautiful (audio).m4a"},
+ {title:"Execute the Sounds",artist:"P.O.D",cover:"media/IMG_20251222_222444.jpg",src:"media/Execute the Sounds.m4a"},
+ {title:"Sitting Ducks",artist:"Smile Empty Soul",cover:"media/IMG_20251222_201922.jpg",src:"media/Sitting Ducks.m4a"},
+ {title:"L.A. River",artist:"Smile Empty Soul",cover:"media/IMG_20251222_201607.jpg",src:"media/Smile Empty Soul - L.A. River.m4a"},
+ {title:"Landslide",artist:"Smile Empty Soul",cover:"media/IMG_20251222_202325.jpg",src:"media/Landslide.m4a"},
+ {title:"Final Masquerade",artist:"Linkin Park",cover:"media/happy-22nd-anniversary-to-hybrid-theory-one-of-the-most-v0-6yuogntjpnv91.png",src:"media/Linkin Park_ Final Masquerade (Lyrics).m4a"},
+ {title:"Heavy ft. Kiara",artist:"Linkin Park",cover:"media/chester&kiara.jpeg",src:"media/Linkin Park - Heavy ft. Kiiara (Lyrics).m4a"},
+ {title:"Battle Symphony",artist:"Linkin Park",cover:"media/IMG_20251207_120239.jpg",src:"media/Linkin Park - Battle Symphony [Lyrics].m4a"},
+ {title:"As Long As It Matters",artist:"Gin Blossoms",cover:"media/IMG_20251224_110112.jpg",src:"media/Gin Blossoms - As Long As It Matters (lyrics).m4a"}
+];
+
+const tracksGrid = document.getElementById("tracksGrid");
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playBtn");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const progress = document.getElementById("progress");
+const volume = document.getElementById("volume");
+const playerCover = document.getElementById("playerCover");
+const playerBg = document.getElementById("playerBg");
+const nowTitle = document.getElementById("nowTitle");
+const nowArtist = document.getElementById("nowArtist");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const repeatBtn = document.getElementById("repeatBtn");
+const loadMoreBtn = document.getElementById("loadMoreBtn");
+const playerCurrentTime = document.getElementById("playerCurrentTime");
+const durationEl = document.getElementById("duration");
+
+let currentTrack = 0;
+let isShuffle = false;
+let repeatState = 0; // 0 = off, 1 = repeat one, 2 = repeat all
+let tracksToShow = 8;
+let isChangingTrack = false;
+let isMuted = false;
+
+const player = document.querySelector(".player");
+const playerStatus = document.getElementById("playerStatus");
+const musicCount = document.getElementById("musicCount");
+const miniPlayer = document.getElementById("miniPlayer");
+const miniCover = document.getElementById("miniCover");
+const miniTitle = document.getElementById("miniTitle");
+const miniArtist = document.getElementById("miniArtist");
+const miniPlay = document.getElementById("miniPlay");
+const miniPrev = document.getElementById("miniPrev");
+const miniNext = document.getElementById("miniNext");
+
+musicCount.textContent = `${tracks.length} tracks · click a song to play`;
+
+/* ---------- HELPERS ---------- */
+function formatTime(seconds){
+  if(!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
+  return `${mins}:${secs}`;
+}
+
+function updatePlayerButton(){
+  const paused = audio.paused;
+  playBtn.innerHTML = paused
+    ? '<i class="fas fa-play"></i>'
+    : '<i class="fas fa-pause"></i>';
+  playBtn.title = paused ? "Play" : "Pause";
+  playBtn.setAttribute("aria-label", paused ? "Play" : "Pause");
+  miniPlay.innerHTML = paused
+    ? '<i class="fas fa-play"></i>'
+    : '<i class="fas fa-pause"></i>';
+  player.classList.toggle("playing", !paused);
+  playerStatus.innerHTML = `<span class="dot"></span><span>${paused ? "Paused" : "Playing"}</span>`;
+}
+
+function updateActiveTrack(){
+  document.querySelectorAll(".track-row").forEach((row, index) => {
+    const active = index === currentTrack;
+    row.classList.toggle("active", active);
+    row.classList.toggle("playing", active && !audio.paused);
+    const icon = row.querySelector(".fa-play,.fa-pause");
+    if(icon) icon.className = `fas ${active && !audio.paused ? "fa-pause" : "fa-play"}`;
+  });
+}
+
+function updateRepeatButton(){
+  repeatBtn.classList.toggle("toggled", repeatState !== 0);
+
+  if(repeatState === 1){
+    repeatBtn.innerHTML = '<i class="fas fa-1"></i>';
+    repeatBtn.title = "Repeat one";
+  }else if(repeatState === 2){
+    repeatBtn.innerHTML = '<i class="fas fa-repeat"></i>';
+    repeatBtn.title = "Repeat all";
+  }else{
+    repeatBtn.innerHTML = '<i class="fas fa-repeat"></i>';
+    repeatBtn.title = "Repeat off";
+  }
+}
+
+/* ---------- LOAD TRACK ---------- */
+function loadTrack(index){
+  if(!tracks.length) return;
+
+  currentTrack = (index + tracks.length) % tracks.length;
+  localStorage.setItem("aloygene-track", String(currentTrack));
+  const track = tracks[currentTrack];
+
+  isChangingTrack = true;
+
+  audio.pause();
+  audio.src = track.src;
+  audio.load();
+
+  playerCover.src = track.cover;
+  playerCover.alt = `${track.title} cover`;
+  playerBg.style.backgroundImage = `url("${track.cover}")`;
+  nowTitle.textContent = track.title;
+  nowArtist.textContent = track.artist;
+  miniCover.src = track.cover;
+  miniCover.alt = `${track.title} cover`;
+  miniTitle.textContent = track.title;
+  miniArtist.textContent = track.artist;
+  miniPlayer.classList.add("show");
+
+  progress.value = 0;
+  playerCurrentTime.textContent = "0:00";
+  durationEl.textContent = "0:00";
+
+  updateActiveTrack();
+
+  /* Give the browser a moment to finish the new source transition. */
+  setTimeout(() => {
+    isChangingTrack = false;
+  }, 0);
+}
+
+/* ---------- RENDER TRACK LIST ---------- */
+function renderTracks(limit){
+  tracksGrid.innerHTML = "";
+
+  const visibleCount = Math.min(limit, tracks.length);
+
+  for(let i = 0; i < visibleCount; i++){
+    const track = tracks[i];
+    const row = document.createElement("div");
+
+    row.className = "track-row" + (i === currentTrack ? " active" : "");
+
+    row.innerHTML = `
+      <span class="track-num">${i + 1}</span>
+      <div class="track-cover">
+        <img src="${track.cover}" alt="">
+      </div>
+      <div class="track-info">
+        <div class="track-title">${track.title}</div>
+        <div class="track-artist">${track.artist}</div>
+      </div>
+      <i class="fas fa-play"></i>
+    `;
+
+    row.addEventListener("click", async () => {
+      currentTrack = i;
+      loadTrack(currentTrack);
+
+      try{
+        await audio.play();
+      }catch(error){
+        console.error("Manual play failed:", error);
+      }
+    });
+
+    tracksGrid.appendChild(row);
+  }
+
+  loadMoreBtn.style.display = limit >= tracks.length ? "none" : "block";
+  updateActiveTrack();
+}
+
+/* ---------- NEXT TRACK ---------- */
+async function playNextTrack(){
+  if(!tracks.length || isChangingTrack) return;
+
+  /* Repeat current song */
+  if(repeatState === 1){
+    audio.currentTime = 0;
+
+    try{
+      await audio.play();
+    }catch(error){
+      console.error("Repeat-one playback failed:", error);
+    }
+    return;
+  }
+
+  /* Shuffle */
+  if(isShuffle && tracks.length > 1){
+    let nextIndex;
+
+    do{
+      nextIndex = Math.floor(Math.random() * tracks.length);
+    }while(nextIndex === currentTrack);
+
+    currentTrack = nextIndex;
+  }else{
+    const nextIndex = currentTrack + 1;
+
+    if(nextIndex >= tracks.length){
+      /* Repeat all loops back to the first track. */
+      if(repeatState === 2){
+        currentTrack = 0;
+      }else{
+        /* Repeat OFF: stop after the final track. */
+        audio.currentTime = 0;
+        updatePlayerButton();
+        return;
+      }
+    }else{
+      currentTrack = nextIndex;
+    }
+  }
+
+  loadTrack(currentTrack);
+
+  try{
+    await audio.play();
+  }catch(error){
+    console.error("Auto-next playback failed:", error);
+  }
+}
+
+/* ---------- PREVIOUS TRACK ---------- */
+async function playPrevTrack(){
+  if(!tracks.length || isChangingTrack) return;
+
+  /*
+    Spotify-style behavior:
+    if the song is already more than 3 seconds in,
+    Previous restarts the current song.
+  */
+  if(audio.currentTime > 3){
+    audio.currentTime = 0;
+    return;
+  }
+
+  if(isShuffle && tracks.length > 1){
+    let prevIndex;
+
+    do{
+      prevIndex = Math.floor(Math.random() * tracks.length);
+    }while(prevIndex === currentTrack);
+
+    currentTrack = prevIndex;
+  }else{
+    currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+  }
+
+  loadTrack(currentTrack);
+
+  try{
+    await audio.play();
+  }catch(error){
+    console.error("Previous playback failed:", error);
+  }
+}
+
+/* ---------- INITIALIZE ---------- */
+const savedVolume = localStorage.getItem("aloygene-volume");
+const savedTrack = Number(localStorage.getItem("aloygene-track"));
+const savedRepeat = Number(localStorage.getItem("aloygene-repeat"));
+const savedShuffle = localStorage.getItem("aloygene-shuffle") === "1";
+
+if(Number.isFinite(savedVolume)) volume.value = Math.max(0, Math.min(1, savedVolume));
+if(Number.isInteger(savedTrack) && savedTrack >= 0 && savedTrack < tracks.length) currentTrack = savedTrack;
+if([0,1,2].includes(savedRepeat)) repeatState = savedRepeat;
+isShuffle = savedShuffle;
+
+renderTracks(tracksToShow);
+loadTrack(currentTrack);
+audio.volume = Number(volume.value);
+shuffleBtn.classList.toggle("toggled", isShuffle);
+shuffleBtn.title = isShuffle ? "Shuffle on" : "Shuffle off";
+updateRepeatButton();
+updatePlayerButton();
+
+/* ---------- PLAY / PAUSE ---------- */
+playBtn.addEventListener("click", async () => {
+  if(audio.paused){
+    try{
+      await audio.play();
+    }catch(error){
+      console.error("Play failed:", error);
+    }
+  }else{
+    audio.pause();
+  }
+});
+
+audio.addEventListener("play", () => {
+  updatePlayerButton();
+  updateActiveTrack();
+});
+audio.addEventListener("pause", () => {
+  updatePlayerButton();
+  updateActiveTrack();
+});
+
+/* ---------- THE IMPORTANT AUTO-NEXT EVENT ---------- */
+audio.addEventListener("ended", () => {
+  console.log("SONG ENDED:", tracks[currentTrack]?.title);
+  playNextTrack();
+});
+
+/* ---------- AUDIO READY ---------- */
+audio.addEventListener("loadedmetadata", () => {
+  if(Number.isFinite(audio.duration)){
+    durationEl.textContent = formatTime(audio.duration);
+  }
+});
+
+/* ---------- AUDIO ERROR ---------- */
+audio.addEventListener("error", () => {
+  const error = audio.error;
+
+  console.error("AUDIO ERROR:", error);
+  console.error("FAILED SOURCE:", audio.currentSrc || audio.src);
+
+  /*
+    Do NOT automatically skip immediately on every error.
+    A broken/missing media file should be visible in DevTools
+    instead of silently jumping through the whole playlist.
+  */
+  updatePlayerButton();
+});
+
+/* ---------- NEXT / PREVIOUS ---------- */
+nextBtn.addEventListener("click", playNextTrack);
+prevBtn.addEventListener("click", playPrevTrack);
+
+/* ---------- SHUFFLE ---------- */
+shuffleBtn.addEventListener("click", () => {
+  isShuffle = !isShuffle;
+  localStorage.setItem("aloygene-shuffle", isShuffle ? "1" : "0");
+
+  shuffleBtn.classList.toggle("toggled", isShuffle);
+  shuffleBtn.title = isShuffle ? "Shuffle on" : "Shuffle off";
+
+  console.log("Shuffle:", isShuffle ? "ON" : "OFF");
+});
+
+/* ---------- REPEAT ---------- */
+repeatBtn.addEventListener("click", () => {
+  repeatState = (repeatState + 1) % 3;
+  localStorage.setItem("aloygene-repeat", String(repeatState));
+  updateRepeatButton();
+
+  console.log(
+    "Repeat:",
+    repeatState === 0 ? "OFF" :
+    repeatState === 1 ? "ONE" :
+    "ALL"
+  );
+});
+
+/* ---------- TIME / PROGRESS ---------- */
+audio.addEventListener("timeupdate", () => {
+  if(!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+
+  progress.value = (audio.currentTime / audio.duration) * 100;
+  playerCurrentTime.textContent = formatTime(audio.currentTime);
+  durationEl.textContent = formatTime(audio.duration);
+});
+
+progress.addEventListener("input", () => {
+  if(!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+
+  audio.currentTime = (Number(progress.value) / 100) * audio.duration;
+});
+
+/* ---------- VOLUME ---------- */
+volume.addEventListener("input", () => {
+  audio.volume = Number(volume.value);
+  localStorage.setItem("aloygene-volume", String(audio.volume));
+  isMuted = audio.volume === 0;
+});
+
+/* ---------- LOAD MORE ---------- */
+loadMoreBtn.addEventListener("click", () => {
+  tracksToShow += 8;
+  renderTracks(tracksToShow);
+  updateActiveTrack();
+});
+
+
+
+/* ---------- MINI PLAYER ---------- */
+miniPlay.addEventListener("click", async () => {
+  if(audio.paused){
+    try{ await audio.play(); }catch(error){ console.error("Mini play failed:", error); }
+  }else{
+    audio.pause();
+  }
+});
+miniPrev.addEventListener("click", playPrevTrack);
+miniNext.addEventListener("click", playNextTrack);
+
+/* ---------- KEYBOARD CONTROLS ---------- */
+document.addEventListener("keydown", async e => {
+  const tag = document.activeElement?.tagName;
+  const typing = tag === "INPUT" || tag === "TEXTAREA" || document.activeElement?.isContentEditable;
+  if(typing) return;
+
+  if(e.code === "Space"){
+    e.preventDefault();
+    if(audio.paused){
+      try{ await audio.play(); }catch(error){ console.error("Keyboard play failed:", error); }
+    }else{
+      audio.pause();
+    }
+  }else if(e.key === "ArrowRight"){
+    e.preventDefault();
+    if(Number.isFinite(audio.duration)) audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+  }else if(e.key === "ArrowLeft"){
+    e.preventDefault();
+    if(Number.isFinite(audio.duration)) audio.currentTime = Math.max(0, audio.currentTime - 5);
+  }else if(e.key.toLowerCase() === "n"){
+    playNextTrack();
+  }else if(e.key.toLowerCase() === "p"){
+    playPrevTrack();
+  }else if(e.key.toLowerCase() === "r"){
+    repeatState = (repeatState + 1) % 3;
+    localStorage.setItem("aloygene-repeat", String(repeatState));
+    updateRepeatButton();
+  }else if(e.key.toLowerCase() === "s"){
+    isShuffle = !isShuffle;
+    localStorage.setItem("aloygene-shuffle", isShuffle ? "1" : "0");
+    shuffleBtn.classList.toggle("toggled", isShuffle);
+    shuffleBtn.title = isShuffle ? "Shuffle on" : "Shuffle off";
+  }else if(e.key.toLowerCase() === "m"){
+    if(audio.volume > 0){
+      audio.dataset.previousVolume = String(audio.volume);
+      audio.volume = 0;
+    }else{
+      audio.volume = Number(audio.dataset.previousVolume || 0.9);
+    }
+    volume.value = audio.volume;
+    localStorage.setItem("aloygene-volume", String(audio.volume));
+  }
+});
+
+/* ---------- STICKY MINI PLAYER ON SCROLL ---------- */
+const musicSection = document.getElementById("music");
+const miniObserver = new IntersectionObserver(entries=>{
+  const entry = entries[0];
+  if(!entry.isIntersecting && !audio.paused){
+    miniPlayer.classList.add("show");
+  }else if(entry.isIntersecting){
+    miniPlayer.classList.remove("show");
+  }
+},{threshold:0.05});
+miniObserver.observe(musicSection);
+
+/* ---------- AUTO SAVE / PLAYER STATE ---------- */
+window.addEventListener("beforeunload", () => {
+  localStorage.setItem("aloygene-volume", String(audio.volume));
+  localStorage.setItem("aloygene-track", String(currentTrack));
+  localStorage.setItem("aloygene-repeat", String(repeatState));
+  localStorage.setItem("aloygene-shuffle", isShuffle ? "1" : "0");
+});
+
+/* ================= WEATHER ================= */
+const apiKey = "8a252f61c3bb5b844bf4473729978c30";
+const defaultCity = "Cebu";
+const weatherTemp = document.getElementById("weatherTemp");
+const weatherCity = document.getElementById("weatherCity");
+const weatherIcon = document.getElementById("weatherIcon");
+const weatherWidget = document.getElementById("weatherWidget");
+
+async function getWeather(city){
+  try{
+    const r = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`);
+    const d = await r.json();
+    weatherCity.textContent = d.name;
+    weatherTemp.textContent = Math.round(d.main.temp)+"°C";
+    weatherIcon.src = `https://openweathermap.org/img/wn/${d.weather[0].icon}.png`;
+  }catch{ weatherTemp.textContent = "N/A"; }
+}
+getWeather(defaultCity);
+
+let dragging = false;
+weatherWidget.addEventListener("pointerdown", e => {
+  dragging = true;
+  weatherWidget.classList.add("dragging");
+  weatherWidget.setPointerCapture?.(e.pointerId);
+});
+document.addEventListener("pointermove", e => {
+  if(dragging){
+    const left = Math.max(4, Math.min(window.innerWidth - weatherWidget.offsetWidth - 4, e.clientX - weatherWidget.offsetWidth / 2));
+    const top = Math.max(70, Math.min(window.innerHeight - weatherWidget.offsetHeight - 4, e.clientY - 12));
+    weatherWidget.style.left = left + "px";
+    weatherWidget.style.top = top + "px";
+    weatherWidget.style.right = "auto";
+  }
+});
+document.addEventListener("pointerup", () => {
+  dragging = false;
+  weatherWidget.classList.remove("dragging");
+});
+
+/* ================= WORD OF THE DAY ================= */
+const words = [
+  {word:"Gugma", translation:"Love", definition:"Deep affection or care for someone or something.", example:"Ang gugma dili mahimo nga sultihanon lang, kinahanglan ipakita."},
+  {word:"Kasingkasing", translation:"Heart", definition:"The center of emotions and feelings.", example:"Ang imong kasingkasing maoy nagsulti sa tinuod."},
+  {word:"Pag-asa", translation:"Hope", definition:"A feeling of expectation and desire for something to happen.", example:"Ayaw pagkawala sa pag-asa bisan unsa pa ka lisod."},
+  {word:"Kahimtang", translation:"Situation", definition:"The current state or condition of something.", example:"Lisod ang kahimtang karon pero molabay ra ni."},
+  {word:"Paglaum", translation:"Faith / Trust", definition:"Complete trust or confidence in someone or something.", example:"Kinahanglan nato ang paglaum sa atong kaugalingon."},
+  {word:"Kalipay", translation:"Happiness", definition:"A state of joy and contentment.", example:"Ang kalipay dili gikan sa kwarta, kundi sa kalinaw."},
+  {word:"Damgo", translation:"Dream", definition:"A cherished aspiration or ambition.", example:"Sundon ang imong damgo ug dili mo magsisi."},
+  {word:"Kaisog", translation:"Courage", definition:"The ability to do something that frightens one.", example:"Kinahanglan ug kaisog para moatubang sa kahadlok."},
+  {word:"Kaalam", translation:"Wisdom", definition:"The quality of having experience and good judgment.", example:"Ang kaalam dili gikan sa libro, kundi sa kasinatian."},
+  {word:"Paningkamot", translation:"Effort", definition:"A determined attempt to achieve something.", example:"Ang paningkamot maoy yawi sa kalampusan."},
+  {word:"Serendipity", translation:"Kalipay sa wala damha", definition:"The occurrence of finding pleasant things by chance.", example:"Meeting you was pure serendipity."},
+  {word:"Resilience", translation:"Kusog sa pagbalik", definition:"The capacity to recover quickly from difficulties.", example:"Her resilience helped her overcome every challenge."},
+  {word:"Ephemeral", translation:"Temporaryo / mubo lang", definition:"Lasting for a very short time.", example:"Youth is ephemeral, so make the most of it."},
+  {word:"Wanderlust", translation:"Kahinam sa pagbiyahe", definition:"A strong desire to travel and explore the world.", example:"His wanderlust took him to every continent."},
+  {word:"Perseverance", translation:"Pagpadayon", definition:"Persistence in doing something despite difficulty.", example:"Success requires perseverance and dedication."},
+  {word:"Gratitude", translation:"Pagpasalamat", definition:"The quality of being thankful.", example:"She expressed gratitude for all the support she received."},
+  {word:"Harmony", translation:"Panag-uyon", definition:"A state of peaceful coexistence.", example:"The community lived in perfect harmony."},
+  {word:"Compassion", translation:"Kaluoy", definition:"Sympathetic concern for the sufferings of others.", example:"Show compassion to those who are struggling."},
+  {word:"Authenticity", translation:"Pagka-tinuod", definition:"The quality of being genuine or real.", example:"People appreciate authenticity over pretense."}
+];
+
+const wordOverlay = document.getElementById("wordOverlay");
+function showWordPopup(){
+  const w = words[Math.floor(Math.random()*words.length)];
+  document.getElementById("wordMain").textContent = w.word;
+  document.getElementById("wordTranslation").textContent = w.translation;
+  document.getElementById("wordDefinition").textContent = w.definition;
+  document.getElementById("wordExample").textContent = `"${w.example}"`;
+  wordOverlay.classList.add("active");
+}
+function closeWordPopup(){ wordOverlay.classList.remove("active"); }
+window.addEventListener("load", () => {
+  const today = new Date().toISOString().slice(0,10);
+  const lastWordDay = localStorage.getItem("aloygene-word-day");
+  if(lastWordDay !== today){
+    setTimeout(() => {
+      showWordPopup();
+      localStorage.setItem("aloygene-word-day", today);
+    }, 1800);
+  }
+});
+wordOverlay.addEventListener("click", e => { if(e.target.id === "wordOverlay") closeWordPopup(); });
+
+/* ================= DRAGGABLE BMC BUTTON ================= */
+const bmcButton = document.querySelector(".bmc-float");
+let isDragging = false, offsetX = 0, offsetY = 0;
+bmcButton.addEventListener("mousedown", e => {
+  isDragging = true;
+  offsetX = e.clientX - bmcButton.getBoundingClientRect().left;
+  offsetY = e.clientY - bmcButton.getBoundingClientRect().top;
+});
+document.addEventListener("mouseup", () => isDragging = false);
+document.addEventListener("mousemove", e => {
+  if(!isDragging) return;
+  let left = e.clientX - offsetX, top = e.clientY - offsetY;
+  const maxLeft = window.innerWidth - bmcButton.offsetWidth;
+  const maxTop = window.innerHeight - bmcButton.offsetHeight;
+  left = Math.max(0, Math.min(left, maxLeft));
+  top = Math.max(0, Math.min(top, maxTop));
+  bmcButton.style.left = left+"px";
+  bmcButton.style.top = top+"px";
+  bmcButton.style.right = "auto";
+  bmcButton.style.bottom = "auto";
+});
+</script>
+
+<script>
+/* ================= BLOG ================= */
+(function(){
+  const grid = document.getElementById('blogGrid');
+  const search = document.getElementById('blogSearch');
+  const empty = document.getElementById('blogEmpty');
+  const cards = [...document.querySelectorAll('.blog-card')];
+  const posts = [...document.querySelectorAll('.blog-post')];
+  const postsWrap = document.getElementById('blog-posts');
+
+  function showPost(id){
+    cards.forEach(c => c.style.display = 'none');
+    empty.style.display = 'none';
+    posts.forEach(p => p.classList.toggle('active', p.dataset.fullPost === id));
+    const active = posts.find(p => p.dataset.fullPost === id);
+    if(active) active.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function showCards(){
+    posts.forEach(p => p.classList.remove('active'));
+    filterCards();
+    postsWrap.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function filterCards(){
+    const q = (search?.value || '').trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const hay = ((card.dataset.title || '') + ' ' + (card.dataset.tags || '')).toLowerCase();
+      const ok = !q || hay.includes(q);
+      card.style.display = ok ? '' : 'none';
+      if(ok) visible++;
+    });
+    empty.style.display = visible ? 'none' : 'block';
+  }
+
+  document.querySelectorAll('.blog-read').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      showPost(link.dataset.post);
+      history.replaceState(null, '', '#blog-post-' + link.dataset.post);
+    });
+  });
+
+  document.querySelectorAll('.blog-back').forEach(btn => {
+    btn.addEventListener('click', () => {
+      history.replaceState(null, '', '#blog');
+      showCards();
+    });
+  });
+
+  search?.addEventListener('input', filterCards);
+
+  if(location.hash.startsWith('#blog-post-')){
+    showPost(location.hash.replace('#blog-post-',''));
+  }
+})();
+</script>
+
+
+<script>
+(function(){
+  document.querySelectorAll('.category-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var selected=btn.dataset.category;
+      document.querySelectorAll('.category-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
+      document.querySelectorAll('.blog-card[data-category]').forEach(function(card){
+        card.style.display=(selected==='all'||card.dataset.category===selected)?'':'none';
+      });
+    });
+  });
+  var counter=document.getElementById('visitorCount');
+  if(counter){
+    try{
+      var key='aloygene-local-visits';
+      var n=(parseInt(localStorage.getItem(key)||'0',10)||0)+1;
+      localStorage.setItem(key,String(n));
+      counter.textContent=String(n).padStart(4,'0');
+    }catch(e){counter.textContent='0001';}
+  }
+})();
 </script>
 
 </body>
